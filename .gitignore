@@ -1,0 +1,6 @@
+Session.Vim
+*.zls*
+*.dsy*
+*.DS_Store
+exec
+__pycache__

@@ -1,0 +1,151 @@
+112. goto END; this is just like the goto statement in fortran
+111. in switch, break and fallthrough are two features
+110. the outside variable closed in the closure will be updated when modified
+somewhere else
+109. case <- time.After(time.Second): ...; acts like a timer
+108. break in a select case only breaks from the current case, not the for
+loop. provide a lable to the for-loop and break the lable
+107. <-channel will block until it's fed or it's closed
+106. channels containing pointers will reflect the changes made by other
+goroutines
+105. For a buffered channel, even though it's closed, we can still read the
+values left in the channel, and ok is only false when there is no more
+elements left
+104. when a channel is closed, we can read from it more than once without
+being blocked. a, ok := <- ch; here ok is false if the channel is closed by
+close(ch)
+103. return a channel from a function so that other goroutines can use it
+102. ch := make(chan struct{}) -> a channel with empty struct can be used as signal;
+ch <- struct{}{}; <- ch
+101. in select block, only of the cases is executed; only for channel
+operation; if default exists, never block
+100. if val, ok := <-ch; ok{} 
+99. the channel needs to be closed explicitly when reading data from the
+channel, otherwise deadlock
+98. ch := make(chan int, 2) -> a channel with buffer size of 2
+97. ch<- send value to ch; <-ch fetches value from ch
+96. var ch chan int -> uninitialized channel, i.e. nil; chan = make(chan int) is
+initialized, has an address
+95. chan int -> uninitialized channel is nil; use make(chan int) to initialize
+the channel
+94. new(int) is just like that in c++, creating a memory space and returning
+its address
+93. in order to call an anonymous function recursively, we need to declare it
+first before assignment
+92. panic, defer and recover have to be in the same routine 
+91. defer functions will be executed either when the end of the program eaches
+or a panic occurs
+90. a panic can be nested inside a defer function
+89. one panic can only be recovered by just one recover(), the rest will be
+nil
+88. panic can not be handled by recover in another function, only the one in
+the direct path
+87. we can use panic defer and recover to handle some branches
+86. time.Sleep(time.Millisecond * time.Duration(5400)) -> sub goroutines will
+be killed if the main routine expires
+85. if a := 2; a > 3{} else{}
+84. panic() and recover() are usually in pairs; recover() in the defer
+function can catch the panic mesesage
+83. multiple defers are executed in reverse order, i.e. FILO; 
+82. errors.New("error messages returned")
+81. all_faces := make([]IFACE, 2, 5); all_faces[0]=me; all_faces[1]=&dog
+80. var intface IFACE = a; var intface IFACE = &me; -> depends on whether the
+receiver is value or pointer
+79. ?? cant not my_face:=Intface{me} -> not working; has to declare first; var
+my_face Intface
+78. for a type to use interface, all methods inside interface have to be
+implemented
+77. if a struct has slice/map, passing it by value/reference has the same
+effect for slice/map
+76. define methods related to a type -> func (p *Person) set_name(name
+string){}
+75. nested struct, if not named inside, we can skip the intermediate name.
+74. me := Person{name: "zls"} if not all entries are known
+73. for an uninitialized struct, the initial values will depend on the types
+of the entries
+72. pointer to a struct; p.name; p.age
+71. struct -> type Me struct{name string; age int}; var me Me = Me{"zls", 32}
+70. pass pointer by value and by reference into a function
+69. pointer to pointer by declaring ** and deferencing using **
+68. outside of a function, i.e. in the global scope, can not use := to declare
+and initialize a variable/constant
+67. array of pointers
+66. an uninitialized pointer is nil
+65. the pointer data type of all types is the same, hexadecimal number
+representing a memory address. the difference is the data type it points to
+64. get the address of a variable/constant -> "%p"
+63. slice, map, channel, interface withoutinitialization are nil; while int,
+float32/64 are 0; and string is ""
+62. initialize multiple variables in one line -> a, b, c, d, e := 2, 3.14,
+"str", [] int{2,3}, map[string]int{"sd":2, "sdf": 3}
+61. pass array/slice/map by value to a function will have different effects if
+getting modified inside
+60. Array has a fixed size, while slice, map has variable length;
+assignment-copy creates hard-copies, while assignment-slice/map refers to the
+same object
+59. the mutables and immutables are very much like those in python
+58. m := map[string]int {"x": 2, "y": 3}
+57. slice and map are mutables
+56. pass a function to another, the function type is "func(int)int"
+55. val := func(a int) int {return a*a} (2) -> create a function on the fly
+and execute it immediately
+54. defer fmt.Println("the end") -> won't execute it until the end of the
+function
+53. func f(x, y int, a float32) (z1 int, z2 float32){return}
+52. function closure -> func collect() func(string, int)
+map[string]int{return}
+51. create a function on the fly -> f := func(a * int){}; f(&a) 
+50. func fill_arr(arr *[3] int){(*arr)[2] = 999}
+49. pass map by reference; func fill_map(m *map[string]int){(*m)["xx"]}
+48. fill_slice(c); func fill_slice(c [] int){} -> c is a slice, though passing
+by value, modifications will be reflected onto the original slice due to the
+shared underlying array
+47. fill (&b); func fill(b *[3]int){} -> b is an array of length of 3
+46. func f(a *int){} -> pass by reference
+45. len(map_var) -> returns the number of elements in a map
+44. val, ok := mp["xx"] -> if "xx" is in the map, ok is true, otherwise false
+43. var m map[string]string = map[string]string{"x": "y"}
+42. order of elements matters -> use array or slice; order of the elements
+does not matter, use map
+41. delete(m, "z") -> delete entry of "z"
+40. for k, v := range m{} -> k is key, v is value
+39. var m map[string]string -> here m is nil; make map assignable, use make,
+i.e. make(map[string]string)
+38. array[2:] creates a slice which has variable length
+37. copy(to_slice, from_slice)
+36. f:=e -> f and e are the same object, so modifications are reflected onto each other
+35. can not use make() to create an array
+34. make([]int, 2, 5) -> a slice with length of 2 and capacity of 5
+33. var b[] int -> b == nil
+32. d := [][] int {{2}, {3, 4}} is a slice
+31. var := [2][3] int{{1, 2, 3}, {4, 5, 6}}
+30. len(array), len(arr_2d[0])
+29. const n int = 3; var a[n][n] int
+28. fmt.Printf("%q", [3] string {"xds", "s"})
+27. [9] int{2, 3, b}
+26. initilizing an array -> b := [4] float32{2, 3, 4}
+25. declare an array -> var a[3] int
+24. fmt.Printf("%d\n", array)
+23. switch {case ans > 9: xxx case ans == 9: xxx default: xxx}
+22. switch ans {case 2:xxx case 3: xxx default: xxx}
+21. i, j = 9, 10
+20. i, j := 2, 3 
+19. for i, j := 1, 2; i < 3 && j < 6; i, j = i+1, j+2{}
+18. for a:=9; a < 15; a++{}
+17. for ;a > 3; a --{}
+16. for a > 2 {}
+15. for {} -> the condition is always true, so in order to break from it, a break condition has to be set inside the block
+14. if condition{} else if condition{} else {}
+13. float64(a), convert a to float64 type
+12. the types of the operands at the two sides of arithmetic operators should be the same, otherwise error
+11. every variable in go program has to be used, otherwise error
+10. get inputs from stdin -> scanner := bufio.NewScanner(os.Stdin); scanner.Scan(); input = scanner.Text(); convert the input to a type by: strconv.ParseInt(scanner.Text(), 10, 64)
+9. fmt.Println() -> literals; fmt.Printf("%d", 3) -> format string followed by values
+8. fmt.Printf("%% %t %t %b %s %q %e %f", true, false, 4, "sdf", "sdf", 23423.0, 3.14)
+7. var a string = fmt.Sprintf("This is %v %v", 2, "sd")
+6. type of a variable fmt.Printf("%T %v", c, c). %T mean type, %v means value
+5. implicitly define a variable-> var a = 9; b := "sd"
+4. variable, var var_name var_type = ?, e.g. var a int = 9;
+3. comment syntax is the same as that in c++, //"single line" or /* several lines */
+2. go build x.go, -> gets x.exe executable, and ./x.exe run it
+1. run a go code, command "go run x.go", it automatically compiles and runs it

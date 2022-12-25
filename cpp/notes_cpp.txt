@@ -1,0 +1,333 @@
+332. Due to memory padding, struct{char a,b; int i} -> has size of 8 bytes
+331. sizeof (struct_empty) is 1, but a struct with a int and a double has size of 16, due to compiler optimization in the case of double, i.e. having another 4-byte empty block to make it a multiple of 8 for 64-bit system, -> accessing the next element faster.
+330. unique_ptr<>() seems not delete the pointer after a throw(2) is called?
+329. unique_ptr<>() does not support copy constructor or copy assignemnt, can only be moved
+328. shared_ptr supports move semantics; i.e. std::shared_ptr<int>p2(std::move(p1)); -> p1.use_count() is reset to 0 and the raw pointer being managed is transferred, and p1 now manages nullptr;
+327. dynamic_cast<B*>(D_ptr) works without requiring the class be virtual; dynamic_cast<D&/*>(B&/*) only works for virtual class
+326. dynamic polymorphism works for both base reference and pointer type, not base type
+325. const function can be overloaded; B b; b.f() -> prefer the non-const function, but also the const one; const B b; b.f() -> ONLY the const one
+324. In a class constructor, if an error is thrown, the destructor will not be called
+323. const variable in a class has to be initialized in the constructor initializer list
+322. std::shared_ptr<T> -> std:shared_ptr<int> sp(new int(2), D()/lambda); std::unique_ptr<T, Deleter> -> std::unique_ptr<int[], D> up(new int[3]{2, 4, 5}, D()); we can use shared_ptr mananges dyanmically allocated arrays, but it does not support [] operator, however we can use sp.get()[] to access the elements; std::unique_ptr supports [] operator for array; for the deleter, we can use the default one, i.e. std::default_delete<int[]>()
+321. In class inheritance, the explicit B(b) and B(std::move(b)) need to be called in the initialization in copy and move constructor, otherwise the base default constructor will be called
+320. B b(); -> it's interpreted as funciton declaration, not variable declaration
+319. std::tie(b, std::ignore) = std::tuple<B, int> (B(), 2); -> ignore the element in that place
+318. std::ref() is defined in <functional>; if not defined in std, make sure #include <functional>
+317. std::tuple<int, std::string &> t(i, name); std::get<1>(t) = "zls"; -> name becomes "zls"; std::tie(a, b) = t; -> unpacks t into a and b;
+316. void f(B b); -> creates a copy which will be destructed when exiting f; void f(B &b) or void f(B &&b); -> does not create a copy, just referring to an existing object
+315. In templace function, std::forward<T>() and static_cast<T&&>() are equivalent, not static_cast<T>()
+314. copy constructor/assignment should have const type; while move constructor/assignment should not have const as the rvalue might be changed
+313. B && f(){return B();}; b = f(); -> the temporary object is destructed before move/copy assignment;
+312. B f(){return B();}; b = f(); -> the temporary object is destructed after move/copy assignment; 
+311. at initialization, B b = B(); B b = f(); B && b = f()/B(); const B & b = f()/B() -> the rvalue's lifetime is extended, i.e. b and the temporary object are the same; at assignment, b = B(); b = f(); -> the temporary object is destructed after move/copy assignment
+310. B && b = B(); -> extends the lifetime of B(); b = B(); -> B() is a rvalue, thus gets destroyed after copy/move assignment; if move assignment is not available, copy assignment will be used;
+309. B * f(){return this;} -> std::cout << "The address is " << f() << "\n";
+308. universal/lvalue/rvalue reference is just a reference, so no new object is constructed, it just refers to the existing one; f(B b) always calls a constructor, copy/move constructor
+307. B f(){B b; return b;} -> RVO may not destruct b, and continue use it outside
+306. A&& f(){return std::move(A());} -> dangling reference, just like lvalue reference
+305. int & f(); f() returns a lvalue; f()++ is rvalue; ++f() is a lvalue
+304. std::forward<A&&>() and static_cast<A&&>() both convert to a rvalue reference, and the rvalue reference is used as a lvalue later on, and the modification made by the rvalue reference is reflected on the original variable (lvalue)
+303. std::forward<>() and static_cast<>() can convert between rvalue reference and lvalue reference
+302. std::move() does not transfer the ownership of the original object, just the resources inside the original object, like the newed memory; when goint out of the scope of the original object, it's destructed, and the pointer if any pointing to null will be deleted
+301. std::is_reference<A>::value; std::is_rvalue_reference<A&&>::value; std::is_lvalue_reference<A&>::value;
+300. universal reference and std::forward<> ensure the perfect fowarding
+299. template<typename T> void f(T && i){...;} -> here T is a universal reference, works for both rvaluea and lvalue reference. In compile time, T is inferred
+298. In a class definition, constructor B(int _id): id(_id){} can convert int to B type; -> B b = 2; to disable this feature, we have to "explicit B(int _id): id(_id){}", to declare and define a B object, B b(2); not B b = 2;
+297. B b; f(b) invokes f(B), f(B &b); f(B()) invokes f(B), f(B&&); f(std::move(b)) invokes f(B), f(B&&)
+296. f(2) can invoke f(int), f(int &&); f(i) can invoke f(int), f(int &); f(std::move(i)) can invoke f(int), f(int&&)
+295. f(int&) takes in lvalue, f(int&&) takes in rvalue or rvalue reference, f(int) takes in all of them 
+294. pubic static data members are accessible outside of class
+293. static variables last till the end of the program, even in a class non-static member function, it still exists even when the object is destroyed, and it belongs to the class itself, so even though there are multiple objects, the static object inside a non-static member function is only one copy
+292. For Singleton class, if the GetInstance() returns a Singleton reference, we need to make sure copy constructor and assignment operator is appropriately handled, i.e. in the private scope and deleted or not implemented; it may not release the memory in time or just after main() finishes, so we might prefer std::shared_ptr<Singleton> approach.
+291. For Singleton class, if the GetInstance() returns Singleton pointer, there is no need to worry about copy/assignment of Singleton object
+290. Taking advantage of static global variables getting destroyed, we can delete the Singleton pointer inside it
+289. In singleton class, we can use shared_ptr<Singleton> to manage the static pointer: static std::shared_ptr<Singleton> GetInstance(){...}
+288. In class, we can defined type conversion by type overloading, i.e. operator int(){return id;} or operator std::string(){return name;} -> there is no return type in the type conversion function. only the generic type?
+287. In the thread pool, we might want to make sure the available taks not exceeding a certain number, so we can use the cv.wait_for() to synchronize that
+286. while(cv.wait_for(lock, time, []{return ture;})) -> this is a infinite loop, and no waiting is done; instead use while(true) cv.wait_for(lock, time, []{return false}); -> do waiting
+285. In thread pool, since adding tasks and consuming them share the task queue, thus we need to synchronize the process
+284. As condition_variable.notify_all() and cv.wati(lock, time, pred) does not guarantee the finite blocking, we can frequently check cv.wait(lock, time, pred) till unblocked, i.e. pred is true;
+283. In base class, the same-name function in the derived class will shadow the ones in the base class; to have access to those functions, we can use "using B::f;" in the derived class, if it appears in the non-public area, we can not call it outside 
+282. D d; B b = d; B & bb = d; -> b refers to a different object which is a copy of the B part in d, and bb refers to the same B part in d;
+281. simulated polymorphism: make the base class as virtual and template, The derived class inherits from the derive-template base class; 
+280. void * operator new (size_t size){return malloc(size);}; void operator delete(void * p){free (p);}; we can just use free(pointer) instead of delete pointer;
+279. dynamic_cast<> or dynamic_pointer_cast<> has to be polymorphic type if the types are unrelated, or downcasting
+278. static_cast<> or static_pointer_cast does not work for types that are in the type hierarchy;
+277. std::vector<void *> vec; -> store all pointers no matter what the types are; -> convert back to the right type explicitly
+276. typed pointer can be converted to void-type pointer implicitly, however the reverse needs to be explicit
+275. D d; B *p = &d; D *pd = dynamic_cast<D*>(p); -> convert from B pointer back to D pointer
+274. when downcasting to a derived class from a base class, the dynamic_cast return nullptr as the derived class object is not created, only base part is present while the uniquely derived part is missing, os nullptr for dynamic_cast; 
+273. std::shared_ptr<B> and std::shared_ptr<D> can be converted to each other, and use_count() increases by one; explicitly we can use static_pointer_cast and dynamic_pointer_cast to do the conversion
+272. std::shared_ptr<D> p = std::make_shared<D>(2); std::shared_ptr<B> = p; use_count() will increase by one;
+271. B * p = new D; p -> ~B(); -> calls ~D() and ~B() if the destructor is virtual
+270. In class, member functions marked with const can be overloaded by const or non-const class object, i.e. const object calls the function with const marked, while the non-const object calls the non-const one; the const object can only call the const member function, as the const object has const this pointer, which should not be modified, and only const function can guarantee that.
+269. void f(const int &i); and void f(int &i); can be overloaded by whether the input is a const or not
+268. static_cast<B> or static_cast<B&> does not care virtual or not; dynamic<B&> the parameter has to be a reference or  a pointer type, not value type; -> refers to the same object, so this pointer is the same, but ((B)d).virtual_f(); ->  calls the base class virtual_f() not the one in the derived class even though the function is virtual
+267. fake virtual constructor -> a vitual function in the base class, in the derived class that function returns a new derived class object; when casting derived class object to the base type object, the object can call that virtual function to create a new derived class object, thus getting virtual constructor functionality;
+266. auto a = std::chrono::high_resolution_clock::now(); b = ...; std::chrono::duration<double, std::milli/nano/micro/...> dur = a - b; dur.count() gives the number of ticks of std::milli/nano/...
+265. in class the constant data has to be initialized in the initlization table in the constructor, not assigned later
+264. virtual destructor is recommended if a class is going to serve as a base class
+263. std::future<int> fu; std::shared_future<int> sfu = fu.share(); -> fu lost the shared state, so can not call fu.get() and fu.valid() is false
+262. std::promise<int> prom; prom.get_future() can only be called once, and it can be assigned to std::future or std::shared_future
+261. std::packaged_task<void(int)> task(f); fu=task.get_future(); task.make_ready_at_thread_exit(22); -> the shared state is not ready until the thread exits;
+260. while (!fu.valid()){}; -> check whether fu is valid, setting a valid barrier, just like fu.wait() which blocks until shared state is ready
+259. std::future<void>fu; std::shared_future<void> sfu; std::packaged_task<void()> task; fu.valid(); sfu.valid(); task.valid() shows whether there is a shared state, or a valid function
+258. std::shared_future<void> sfu; std::future_status status; status = sfu.wait_for(sec(2)); -> std::future_status::timeout/ready/deferred
+257. std::cout << std::boolalpha << false << std::noboolalpha << false << std::endl; -> control if true is printed out in string or int value
+256. std::future <void> fu; fu.wait_for(chrono); -> return values are std::future_status::ready; std::future_status::timeout; std::future_status::deferred (not sure when it shows up)
+255. std::packaged_task -> std::future; std::async(std::move(packaged_task)) -> std::future; only one of them can call std::future::get(), otherwise runtime error
+254. #include<algorithm>; std::for_each(vec.begin(), vec.end(), [](int ele){std::cout << ele << " ";}); std::for_each(vec.rbegin(), vec.rend(), func);
+253. std::async() can be implemented by std::packaged_task<> task; and std::thread(std::move(task)); and return task.get_future() to the outside
+252. std::packaged_task<void(int)> task(f); std::thread th(std::move(task), 2); -> here use std::move(task) as std::packaged_task is move-only
+251. std::packaged_task<int(double)> t (f); f(3.2); -> t can be used in different contexts, and it is not automatically executed in a different thread; it's useful as it can pass its return value by std::future
+250. #include <functional>; std::function<int(int)> f = [](int i){return i+2;}; int a = f(2);
+249. lambda expression in a class, if external varialbes needed, the capture list should include this pointer
+248. lambda expression, [=/&/empty](arguments){body}; & means the external variables are referenced, = means the external varialbes are passed by value; if empty, should have no external variables; in = case, we can modify the value of the copies of the external variables, otherwise comiling error; [&, b] means all external variables except b are referenced and b is passed by value; [=, &a] means all external except a are valued passed, a is referenced; NOT VALID: [&a, =] or [a, &], has to be the other way around.
+247. std::future<> is non-copyable, no if used in std::async or other cases, make sure use refrence, [&fu]{fu.get();}; std::shared_future<> sfu = fu.share(); fu is no longer holding the state which is transferred to sfu, and sfu2 = sfu is valid;
+246. sizeof(ptr); sizeof (*ptr); sizeof(NULL); sizeof(nullptr)
+245. std::async(std::launch::async, accum<ITR>, arg1, arg2); -> don't forget the template parameter if it is a template function
+244. std::async(std::launch::async, []{std::this_thread::sleep_for(sec(2));}) -> will block as it's not assigned or moved to std::future object; by std::future<void> fu = std::async(std::launch::async, func), the main thread will not wait for the spawned function to finish
+243. using type_vec=std::vector<int>; type_vec v; v.push_back(2); -> it can also be used in template; typedef std::vector<int> def_vec; def_vec m = {2, 3};
+242. map, multimap, set, multiset are constructed by balanced binary tree; unsorted of those containers are constructed by hash tables, which is faster to retrieve an entry (constant);
+241. std::multimap<int, double> mp; mp does not have [] operator as mp can have multiple same-key elements; mp.find(2) returns only one element iterator; mp.erase(mp.find(2));
+240. std::map<int, std::set<int>> mp; mp.emplace(2, std::set<int>{2, 3}); mp.emplace_hint(mp.end(), 3, std::set<int> {0, 0, 0})
+239. using ele_type = std::pair<int, std::set<std::string>>; mp.insert(mp.end(), ele_type(23, std::set<std::string>{"zls", "abd"}))
+238. std::map<std::vector<Person>, std::string, Compare> mm; Compare can compres the size of the vector
+237. std::set <P, Compare> s; s.begin() -> Getid() => Getid() should be specified by const
+236. std::set <P, Compare>s; in Compare class the functor should be specified by const at the end; inside the functor we can make the comparison as > or < or == or any other comparison
+235. std::set <P, std::greater<P>> s; in P class we should add a friend function/class operator >(const P &, const P &)
+234. std::set<int> s; for (const int & ele : s) std::cout << ele << " "; -> const must be included, otherwise error, make sense since we should not modify the element which will cause the disordering of the elements
+233. std::map<int, double> id; id[2] = 3.1; id.insert(std::pair<int, double>(3, 3.1)); id.insert(id.end(), std::pair<int, double>(4, 4.1)); id.insert(id.find(9), std::pair<int, double>(10, 10.9)); iter->first; iter->second; id[2];
+232. std::multiset<int>; it can have multiple same-value elements; the APIs are the same as the std::set<>;
+231. std::set<P>; (*iter < *(++iter)) use the compare object in iterator/set class; p1 = *iter1; p2 = *iter2; (p1 < p2) uses the < member function in P object;
+230. std::set<int> s; s.erase(9) returns the number of elements erased (0/1); s.erase(iter, s.end()); s.erase(iter);
+229. std::set<P, Compare_class_type> sp; the compare class functor will do the comparison; or if an friend operator < (,) is declared within P, then it can be used to do the sorting.
+228. std::set<P> p; std::cout << p << std::endl; operator bool(){return ...}; here bool does not specify a return type and it does return a bool value, i.e. 0/1;
+227. std::set<int> s; s.emplace_hint(iter, 2); s.insert(iter, 2); -> iter serves as the starting point where to start searching
+226. std::set<int>::iterator iter = s.begin(); iter != s.end(); not < s.end(), maybe because it is not continuous; std::set<int>::reverse_iterator iter = s.rbegin(); iter != s.rend(); iter++;
+225. std::set<int> s; std::set<int>::iterator iter; iter++/-- not +/-; std::pair<std::set<int>::iterator, bool> iter_bool = s.insert(2); * iter_bool.first; iter_bool.second is true if insert successfully, otherwise false; iter_bool.first is the position where it is inserted or already existed; s.insert(arr, arr+2) return type is void;
+224. we can use std::weak_ptr<> peeks into the managed object to see if it's released or not, by .use_count() or .expired(), if not then wp.lock() will create a temporary shared_ptr<> which can access the mananged object.
+223. std::shared_ptr<P> sp(new P); std::weak_ptr<P> wp(sp); std::cout << wp.use_count() << wp.lock().use_count() << wp.use_count() << std::endl; use_count() increments by one from the second expression, and decrements by one when the whole std::cout finishes.
+222. std::shared_ptr<int> sp1(ptr); std::shared_ptr<int> sp2(ptr); ERROR: as sp1 and sp2 are not sharing use_count(), thus causing deleting twice
+221. std::weak_ptr<>; .reset() does not modify use_count(), just make the weak_ptr empty; .expired() whether empty pointer or use_count() is 0; .lock() returns a shared_ptr<> which can be assigned to a shared_ptr<> object, and the operation is atomic;
+220. std::weak_ptr<> does not provide a way of accessing the managed object, but it can wp.lock() to a shared_ptr which can access the managed object
+219. std::weak_ptr<P>; can help resolve cycles in shared_ptr as it can refer to the managed object, but does not change use_count()
+218. operator bool(){return ptr != nullptr;} -> std::cout << sp << std::endl; if (sp) std::cout << "not nullptr\n";
+217. std::shared_ptr<int> sp; std::unique_ptr<int> up; (sp == nullptr); (up == nullptr); (sp.get() == nullptr); (up.get() == nullptr)
+216. in std::shared_ptr<P> sp(new P[2]{P(), P(3)}, std::shared_delete<P[]> ()); array deleter should be used, otherwise error
+215. int * arr = new int[2]{2,3}; delete [] arr; -> if delete arr, it will throw a warning 
+214. std::shared_ptr<int> p; p.unique() is false if p is empty or there is more than one shared_ptr pointing to the managed object
+213. just like std::unique_ptr<int> p(new int(3)); p.reset(); the managed object is freed; std::shared_ptr<int> p(new int (3)); p.reset(); the object is also freed.
+212. std::shared_ptr<P> ppp = std::move(pp); pp is now empty, and its content is moved to ppp
+211. std::make_shared<P>(3) returns a shared_ptr<P> object;
+210. std::shared_ptr<P> pp(new P[2]{P(3), P(4)}, std::default_delete<P[]>); it will delete the array
+209. std::shared_ptr<int> p; it does NOT support dynamically allocated array in c++11, as it does not support array deleter, it now only supports std::default_delete<int>, not <int[]>;
+208. std::default_delete<int> del; del(ptr); std::default_delete<int []> del_arr; del_arr(arr_Ptr); the default deleter is a calss, which is callable taking a pointer
+207. std::unique_ptr<int, delete_type> ptr(another_ptr, deleter()); ptr.get_deleter(); it is called when out of scope, or reset() is called.
+206. for a template class functor, p.operator()<int> (a); is the direct way of calling this with the template parameter.
+205. template<typename T> class P; the copy constructor could be P(const P &p) or P(P<int> & p) or some other specific cases, but the first one includes all other specific cases, so can not be present simultaneously; the first case requires the copy-from and copy-to objects take same template parameters, i.e. same P type.
+204. std::unique_ptr<int, deleter_class_type> ptr(new int(2), deleter()); or we can pass a deleter reference, but not rvalue reference, only lvalue reference.
+203. std::unique_ptr<int> p(new int(2)); p.reset(); p destroys the old object, and accepts the new pointer; p.reset(new int(3));
+202. std::unique_ptr<int[]> p; int *pp = p.release(); delete[]pp; p released the ownership of the array, which is later destroyed by pp pointer;
+201. std::unique_ptr<int> p (new int(2)); p = std::unique_ptr<int>(new int(3)); object 2 is destroyed before it is managing new object 3;
+200. std::unique_ptr<int> p (new int(2)); *p; p.get() returns the pointer inside; p = std::unique_ptr<int>(new int(2));
+199. std::unique_ptr<int[]> p (new int[3]{2,3,4}); b = std::move(p); p is now nullptr, the pointer is transferred to b;
+198. we can put a template function inside a class, and call it normally like p.test<int>(2) or without <int> if works
+197. std::forward_list<int> flist; flist.end()+1 is not supported; std::forward_list<int> flist_iter; flist_iter++, not --, as it is singly linked, only in the forward direction, not in the backward direction;
+196. std::array<int, 3> arr; fixed-size contiguous memory allocation; .fron(), .back(), []; std::array<int, 3>::iterator iter; .begin(), .end(), *iter, .fill(3) -> all elements are set to 3;
+195. std::list<int> and std::vector<int> comparision; when it comes to random removing and insersion, list is preferred if the data structure is large, and vector is preferred if the data stored is small, because list suffer more on the cache misses while not having to reallocate elements, vector can benefit a lot more from the cache hits while having to reallocating some elements, either of them can win in a certain case, depending on the size of the data.
+194. std::vector<>; underlying is array, both are contiguous memory allocation, it is dynamic array, always allocates more than needed to decrease the reallocation
+193. std::vector<>; .reserve(n) -> make the capacity this big if smaller; .pop_back(), .push_back(), .emplace_back(), .emplace(), .empty(), .size()
+192. std::queue<> only exposes its elements at two ends, not at other places, so not support iterators, access the ends by .front(), .back(), modify by .push(), .emplace() at one end and .pop() at the other end
+191. std::stack<> only opens one end, so can only access it at that end, which is top by calling top();
+190. std::stack<int> stak; does not support iterator, so no .begin(), .end() functions; .push(), .pop()
+189. std::queue<int> que; que does not support indexing or random access, we can only access the elements through .front(), .back(), i.e. two ends, it does not support iterator, so we can not do deferencing
+188. std::list<int> lt; std::list<int>::iterator iter; iter != lt.end(), can use NOT < or > lt.end()/begin(), maybe it is because the iterator returned is bidirectional; iter += 2 is not viable, iter++/-- works
+187. std::deque<int> deq; deq[end]; deq.at(end); -> [] does not check the range while .at() does
+186. std::deque<int>; for efficient insersion/removal at both ends (constant time) while linear at other positions, memory is partially continuous, support random accessing [] or at(); size(), empty(), front(), back(), emplace(), emplace_back(), emlace_front(), pop_front(), pop_back(), erase("not support reverse_iterator"), clear(), std::deque<int>::iterator/reverse_iterator; begin(); end(); rbegin(); rend(); rbegin()++; < r.end(); * iter; 
+185. rvalue/lvalue reference can be used in function overloading
+184. #include <numeric>; std::accumulate(arr, arr+3, 10, my_func); by default the initial value is 0, and the function is add, but we can customize our own function.
+183. if f2 depends on f1 for exception, we can declare and define f2 as, e.g. void f2(...) noexcept(noexcept(f1(..))){...}, where noexcept() within is a function which return bool value, and the one outside is a specifier
+182. void fn(...) noexcept{}; or noexcept(true) -> should not throw exception, if it does, can only handle it within the funciton, not outside of it; void fn(...) noexcept(false) -> can throw exception, and can be handled within/outside the function.
+181. double * arr = new double[20]; delete [] arr;
+180. if move constructor/assignment are not implemented, then the copy counterparts will be called instead.
+179. std::move() is equivalent to staci_cast<P&&> (p1), which converts p1 to rvalue reference, so that it can be used move contructor or assignment
+178. even though the destructor names of base and derived class are different, the virtual still gets the derived destructor called (the destructors all start with ~, maybe that's the reason why the right one gets called)
+177. when using runtime polymorphism, set the parent destructor as virtual, so that when deleting a base pointer which points to a derived class will call the destructor from the derived class, not just the one in the base class (releasing resources)
+176. std::packaged_task<void(double, int)> task(std::bind(work, std::placeholders::_2, std::placeholders::_1, "zls")); task(3.14, 2)
+175. std::function<void(int, double)> f = std::bind(work, std::placeholders::_2, std::placeholders::_1, "zls"); f(2, 3.14); we can use std::placeholders::_1/2/3... to change the order of arguments in the new function
+174. (it is a class template) std::packaged_task<return_tye(arg_type1, ...)> task(fn, arg1, arg2, ...); it stores a task, and a shared state; std::future<return_type> fu = task.get_future(); fu.get() -> get the results returned from fn after executing in task object.
+173. (it is a function) std::bind(func, arg, ...) returns a std::function<return_tye(arg_type1, ...)> function, which can be invoked by f(arg, ...)
+172. even after std::move(deque.front()), we still to pop it out from the deque, deque.pop_front()
+171. std::shared_future<void>; std::promise<void>; get_future(); wait(); get(); -> synchronize, just like notify_all/one() and wait()
+170. std::promise<int> prom; std::shared_future<int> sf = prom.get_future(); or std::future<int> fu=prom.get_future(); sf = fu.share(); for each thread, use ITS OWN copy of shared future object, not the same object, otherwise unsafe.
+169. std::future <int> fu; fu.get(); -> only once
+168. std::async() is a function template
+167. when using std::async(), make sure it is assigned to a variable std::future<return_type> ret = std::async(); otherwise hang
+166. std::promise<int*> prom; std::future <int*> fu= prom.get_future(); prom.set_value(new int [2] {2, 3}); int * arr = fu.get()
+165. std::promise <void> prom; std::future<void> fu = prom.get_future(); prom.set_value(); fu.get(); -> used to signal states
+164. To communicate info among threads, we can use std::promise and std::future to send and receive the messages
+163. std::future<int> res = std::async(std::launch::aysnc, func, args); int i = res.get() -> get the return value of the function
+162. #include <future>; std::future<return_type> res = std::async(std::launch::deferred, func, arg); res.wait(); -> in the same thread, not spawned in another thread, and blocks till the result becomes available
+161. In a class, we can not have operator() overloading for static type, as it will conflict with the non-static operator() overloading.
+160. mutex and wait are not interfering each other, so if mutex is still held by one thread and it executes cv.notify_all(), other threads will not be able to acquire the lock and continue its own work and they have to wait till the mutex is released and trying to get the mutex lock, if successful it will continue
+159. cv.wait_for(unique_lock, duration, cond) -> in duration, cond may get checked multiple times when cv.notify_all/one() executes
+158. cv.wait_until(unique_lock, time_point) -> returns std::cv_status::no_timeout, otherwise std::cv_status::timeout
+157. cv.wait_for(unique_lock, duration, cond) - returns true if cond is met, otherwise false; it checks cond the very first beginning, and everytime it's waken up by notify_all/one() or duration runs out.
+156. cv.wait_for(unique_lock, duration) -> returns when cv.notify_all/one() is called or when duration runs out
+155. cv.wait_for(unique_lock, duration) -> returns std::cv_status::timeout/no_timeout depending on if it exceeds the durtion or not
+154. cv.wait() -> it only takes in the unique_lock, not lock_guard or any other type
+153. notify_all/one() just send signal to cv.wait()
+152. In condition_variable cv, cv.wait(unique_lock, cond) is not atomic operation, but cv.wait(unique_lock) is atomic operation
+151. mutex is not released if the the code in the same scope is still running.
+150. For condition_variable, cv.notify_all() will send signals to all threads, but only one thread can own the mutex lock at a time;
+149. For condition_variable, cv.wait(lock); -> determined only by cv.notify_all/one()
+148. For condition_variable, cv.wait(lock, cond); -> first check cond, if true then exit, otherwise wait(lock) before notify_all/one, repeat this process
+147. For condition_variable, make sure notify_one/all() executes before the waiting thread, otherwise deadlock as the waiting thread is waiting for the sginal which happened before the waiting thread is running.
+146. std::condition_variable cv; cv.wait_for(lock, duration, cond); -> cond is checked everytime notify_all() is called, is true then return, otherwise keep sleeping till the end of duration and return cond() value
+145. std::condition_variable cv; cv.wait(lock, std::bind(cond, std::ref(arg1), ...)); -> the predicator has to be a function or a lambda function
+144. std::condition_variable cv; after std::lock/unique_lock<>lock(); cv.wait(lock, []{}) to prevent spurious awake; cv.notify_one() or cv.notify_all()
+143. The static variables in the function are only defined once
+142. We can reassign static class variables in the main or other functions as long as they are public
+141. In singleton class, we need to make constructor as private/protected, copy constructor as delete, and assignment operator as delete.
+140. In singleton we can use a static function which defines a static singleton variable, and it will return the same object whenever it's called. 
+139. When creating a singleton-destroyer class template, make sure the pointer passed in as the initializer is not NULL, otherwise it won't destroy the singleton
+138. int a = 2; int *ptr = &a; delete ptr; -> error since a is not created by new or malloc, don't use delete to release it, it is managed by stack, not heap
+137. the static variable can not have variable length: static int a[N], where N has to be a const, not variable; but static int *a can point to a variable length array.
+136. the static variable has to be defined outside of the class, otherwise it complains it not being defined.
+135. when not using pointers, the multi-instance class gets the call to the destructor; 
+134. int a = 3; int *ptr=&a; delete ptr; -> a is freed, we can not access it any more; -> std::cout << a; malloc error
+133. if new is used, then delete must be called in order to release the object.
+132. P** GetID(){} -> one * is for the array, and the other * is for the data type stored in the array, i.e. P*, a P pointer
+131. static members are only destroyed once throughout the lifetime of the program
+130. A class/struct can be defined inside another class; the static member has to be defined outside of the class, otherwise not created?
+129. For the class with reference member, we assume the orignal has a lifetime longer than the class object; the original has already exist; avoid the overhead of copying the original, so use a reference.
+
+128. In a function, we can alos use reference variable, since it needs initialization, we can just put it among the arguments.
+127. reference member in a class means that it has to be explicitly initialized in the constructor; it can modify the original object
+126. std::call_once: if one of the threads fails, it will continue the execution without waiting for the other threads, but before the function is run successfully, the other threads will wait to execute if unsuccessful.
+125. std::bind(f, a, std::ref(b)) -> 'a' is by value, and 'b' is by reference, just like the case of std::thread;
+124. srand(static_cast<unsigned> (time(NULL))) -> set the random seed; rand() -> generate the random number; header files <time.h> <stdlib.h>
+123. int * func(){} -> it is NOT suggested to return an address of a local variable, so make it static or global
+122. try{std::call_once(once_flag, func, arg1, ...)} catch(...){}; if an exception is thrown from one of the threads, then other thread will start to run func.
+121. try{throw 2;}catch(int a){xxx}catch(...){any other exceptions}; try-catch block can be nested inside another try-catch block.
+120. stdlib.h has rand() which generates pseudo-number, rand()%100 will return a number between 0-99, so if rang()%100+9 -> a number in the range of 9 and 108.
+119. std::unique_lock<std::timed_mutex> lock(timed_mu, std::defer_lock); lock.try_lock_for(std::chrono::seconds) returns true if lock the mutex within this time duration, otherwise false; 
+118. std::unique_lock<std::mutex> lock(mu, std::defer_lock); lock.try_lock(); -> no need to lock.unlock() as the destructor takes care of it, which is unlike mu;
+117. since std::lock_guard only accepts adopt_lock, we have to lock the mutexes before adopting them; std::lock(mu1, mu2, ...); std::lock_guard<std::mutex> lock_1(mu_1); std::lock_guard<std::mutex> lock_2(mu_2); ... -> if we forgot to wrapped mu? into lock_guard, then deadlock.
+116. std::unique_lock<std::mutex> lock_1(mu, std::defer_lock); ...; std::lock(lokc_1, lock_2, ...); -> ensure all mutexes are wrapped inside lock_? and get unlocked when out of scope
+115. static std::mutex mu; --> std::mutex MY_CLASS::mu; outside of the class
+114. mu.try_lock() returns true if getting the lock, otherwise false. CAUTION: don't forget to mu.unlock() otherwise keep locked.
+113. we can inherit from std::mutex and impliment a lock_guard class, locking and locking the mutex object
+112. std::lock(mu1, mu2, ...) -> at least two mutexes
+111. std::lock_guard<std::mutex> lock(mu, std::adopt_lock) needs mu having already been locked, otherwise, it will not be locked
+110. std::defer_lock does work for std::lock_guard, it works for std::unique_lock
+109. std::adopt_lock works for both std::lock_guard and std::unique_lock
+108. std::lock(mu1, mu2, ...); std::lock_guard<std::mutex> lock(mu1, std::adopt_lock); std::lock_guard<std::mutex> lock1(mu2, std::adopt_lock); ...
+107. Caution: when passing by reference in a thread, use std::ref()
+106. emplace_back() constructs the object in place, while push_back() might involve creating and destroying temporary objects
+105. my_vector.emplace_back() vs .push_back(); the former is more efficient than the later for the user-defined types, but are the same efficient for generic types.
+104. std::lock(lockable & lock1, lockable &lock2, ...) -> using a deadlock avoidance algorithm to lock the locks
+103. Return value optimization: omit a copy of the returned value by a function -> the copy constructor may or may not be called. It dependes on the compiler, even the copy constructor has side effects, like printing.
+102. In copy constructor, the argument has to be passing by reference, not by value
+101. void test(P &p) -> neither is called; void test(P p) -> copy constructor is called; P p = return_an_object_value -> neither is called; P p = return_an_object_reference -> copy constructor is called; P test(P &p1) -> if return p1, then there will be copy constructor colling to copy the value from p1 to the output of the function; P test(P p1) -> if return p1, then there will be one copy constructor to pass value to p1, one copy constructor to copy to the return of the function;
+100. std::unique_lock<std::mutex> lock(mu); or lock (mu, std::defer_lock) to defer the locking of mu; then it can choose when to lock mu by lock.lock();
+99. std::mutex is neither copyable nor movable
+98. atomic-operations used in multi-threading context are faster than the lock_guard<mutex> mechanism
+97. std::chrono::high_resolution_clock:time_point is the type of std::chrono::high_resolution_clock::now()
+96. std::chrono::high_resolution_clock::now(); counts = (end_count - start_count).count(); std::chrono::duration_cast<std::chrono::seconds> counts;
+95. if (my_thread.joinable()) my_thread.join()/detach(); can not double join or detach, or join followed by detach.
+94. once the main thread finishes before the child thread, the child thread will be suspended.
+93. when threads take a functor, it can be std::thread(P(), arg1, arg2, ...) or std::thread(p, arg1,arg2, ...) or std::thread((P()), arg1, arg2, ...)
+92. std::thread(&P::static_func, arg1, arg2, ...); std::thread(&P::non_static_func, new P, arg1, arg2, ...)
+91. std::lock_guard and std::unique_lock are not copyable, but transferrable; lock_guard has less overhead than unique_guard, thus use the former if other features of unique_lock are not needed. Both release the mutex if the lock goes out of scope, and unique_lock has more control when to lock and unlock mutex.
+90. std::lock_guard<std::mutex> locker(mu); by using {}, we create a scope that lock_guard is active, out of which lock_guard is not active
+89. #include <mutex> std::mutex mu; mu.lock(); cout <<...; mu.unlock(); -> using mutex to ensure only one thread is executing the line code. The problem with this is that if that line of code throws an error, mu will be locked indefinitely.
+88. std::this_thread::sleep_for(std::chrono::seconds(3)+std::chrono::milliseconds(500)) -> we can add the time durations together
+87. copy assignment: P & operator =(const P &p){...} -> get called after declaration and when getting assigned p = p0;
+86. copy constructor: P& P(const P &p){...} -> gets called at declaring and initializing time, i.e. P p=p0 or P p(p0);
+85. std::move(std_string); std_string will be empty after being moved from; however for int/double, it still holds that value
+84. std::move(l); converting a lvalue to a rvalue reference. This avoids copying of objects, just a transfer of an ownership. Thus std::move() can greatly boost performance in some cases
+83. in multiple threading context, we should not oversubscribe the threads, otherwise performance gets compromised.
+82. std::thread::hardware_concurrency() returns the number of concurrent threads that are supported.
+81. std::thread my_thread(P(), 2); () operator is overloaded as a functor. 
+80. Functor is just like the call() function in a python class
+79. Functor: () operator overloading; P p; p(2); -> it is calling () operator
+78. "P p;" -> calling constructor; "P p = p0;" -> not calling constructor nor assignment operator overloading; "P p; p = p0;" -> calling constructor first to create an object, then assignment operator overloading to modify some of its data members
+77. If a class has a pointer member, make sure it's initialized, otherwise segmentation fault when copied to another object;
+76. Assignment operator overloading: Person & operator = (const Person & p); if (this != & p) do sth; return *this;
+75. In a thread, when passing by reference, use std::ref(variable), by default it is by value
+74. Just like smart pointers, we can wrap std::thread inside a class and join or detach it inside the destructor.
+73. std::thread is not copiable, but movable
+72. we can spawn another child thread inside a child thread
+71. class P{..}; P p; p = P(2); P p()-> not corrected as it's treated as a function declaration; p = P()
+70. if the child process needs more time than the main thread and the child thread is detached from the main one, then the child thread will run to the end and deallocates resources allocated.
+69. std::thread my_thread; my_thread.join() -> the main thread will wait for the child thread to finish; my_thread.detach() -> the child thread is separated from the main thread, and it will execute independently.
+68. std::thread my_threads[3]; for (auto & thread : my_threads); note: without &, error
+67. <unistd.h>, there is a feature, which is sleep(2), just like the command in linux terminal
+66. std::this_thread::sleep_for(std::chrono::seconds(2)), or microseconds(2000000), or milliseconds(2000), nanoseconds(2000000000): put this thread in sleep for a mount of time
+65. without specifying task_thread.join() or task_thread.detach(), the program will abort.
+64. "->" overloading, it returns just the pointer itself
+63. *ptr returns a reference(has a memory location), it is a lvalue, thus can be assigned to a rvalue
+62. If a function returns a reference, we can assign a value to that function.
+61. Smart pointers are a part of the STL library, so we can practice implementing some of their features by template class. Like automatically releasing memory when out of scope, and deferenced just like regular pointer.
+60. struct and class can both be templated
+59. we can control the instances of a template class to be another class's friends.
+58. If T is a cutomized class type, "friend T" works to set T as a friend class
+57. For a template class Person, Person<xx> is an actual class, while Person is just a blueprint or template, not an actual class
+56. Within a template class there is a friend class, thus the friend class has to be a template class. Inside the class, declare the friend class: "template<typename TT> friend class Friend;". note: the template parameters have to match, otherwise not friends.
+55. Virtual polymorphism works in the case of pointer, not in reference case
+54. dynamic_cast<Person &> (*ptr), or dynamic_cast<Person *> (ptr)
+53. class templates can be inherited, and only difference is to specify the template parameters when using it.
+52. when calling static functions/data in a template class, we do not have to specify the template parameters, like Family<T, N>::num_of_families; if outside of class, we have to specify the template parameters. The static members are not shared in different template parameters, and are shared if the template parameters are the same
+51. class template --> member function defined outside of the class: template<typename T, int N> T* Family<T, N> Get(){...}
+50. templates are a type of polymorphism, happening at compile time. Parametric polymorphism
+49. templates can work for a mix of typename and variable, template<typename T, int N> ...
+48. templates can also work for non-typename variables like template <int N> void SetArr(){...}
+47. templates can also be overloaded with the same function name
+46. Function template syntax: template<typename T, typename U, ...> U Get(T a){...}; calling by Get<int, double> (2); ...
+45. the size of a class is the sum of all member data, not member functions; if no member data preset, it is just 1
+44. pointer always has the same size, no matter what type it is, even the cutomer-defined classes
+43. [] overloading for class
+42. operator overloading ++: void operator ++() --> prefix; void operator ++(int) --> postfix, note it must be int in ()
+41. operator overloading function is just like regular functions, but with operator before the function name
+40. typeid(variable_name).name() returns the type of variable_name; do some comparison == or !=
+39. static polymorphism: function overloading and operator overloading
+38. void f(int i); void f(const int i); not allowed as it redefines the function
+37. void f(); void f(int i = 0); ambiguous
+36. Function overloading can not be  distinguished by the return type
+35. int * const ptr = &a; const pointer has to be initialized, and ptr can not be changed but *ptr = 34 is valid to modify the value of the memory address
+34. If static member is public, in main function we can access class::static_member or class::static_function
+33. const member function in a class can not modify the regular member data, but can modify static member data, and it can not call non-const member function, but can call whatever non-member functions.
+32. In c++, encapsulation includes 1) the functions 2) the classes which have different access types (private, protected and public). The different part coordinate with each other through APIs without knowing the details of the implementation
+31. Static/dynamic_cast<>(): for non-virtual functions use the ones in the casted-type, otherwise the ones in the actual object; dynamic_cast only works if the casted type is in the upper inheritence level of the actual object and virtual class
+30. Dynamic_cast can only convert derived class object pointer/reference to one of the parents' type pointer
+29. Use dynamic_cast to filter out the instances of the class type we are interested in.
+28. ptr_b = new derive; ptr_d = static_cast<derive *> (ptr_b) or ptr_d = dynamic_cast<derive*> (ptr_b); ptr_d -> d_only_func()
+27. dynamic_cast<derive*> (base ptr), where base ptr is a base-type pointer pointing a derived class; the base type has be virtual; if successful, a pointer or reference is created, otherwise null or 0; static_cast<base*>(derive pointer);
+26. In virtual base class situation, the virtual functions in the derived class can be overriden by the ones in the base class.
+25. (static_cast can NOT be used between two non-related classes, while the c-type casting can) static_cast<Base> (d); static_cast<Base *> (&d); static_cast<Base *> (ptr_d);
+24. static_cast<int> (a); static_cast<double> (b);
+23. Just like in class, there are also member functions in struct, and types might be virtual, override, final, static. The same inheritence rules as in class. But the default are the opposite of class.
+22. virtual/override/final are only allowed within the class, not outside of it.
+21. In a derived class, when overriding a virtual function in the base class, it is a good practice to put "override" behind the defition, for readabilty for both readers and compilers.
+20. Static variables and functions are also inheritable, nothing different from the normal members, except the static feature
+19. Without static keyword before the function name, the members can only be accessed by its instance, not by class itself.
+18. Why static variable in a class has to be initialized outside of class? The reason is if not, its value will be reset every time a new instance of the class is created.
+17 The static variables in a class are attributes of class itself, only one copy no matter how many instances of the class are created, its memory is inside the class, not inside the object memory. It can be accessible by class itself through operator "::", not ".", and by instances through ".". All member functions can access the static variabls, while static member function can only access the static variables. The static variable has to be initialized outside of the class definition.
+16. The static variable inside a function will keep its value updated.
+15. virtual keyword makes the binding of function body happen at runtime (late/dynamic binding), without virtual keyword, the binding happens at comiling time. Derived class is casted to base class pointer, the pointer will point to the virtual function in the derived class, not in the base class. For the non-virtual function, pointer points to the functions in the base class.
+14. Only the newly-defined members of the friend class can be the context where the private/protected part of the class are accessible.
+13. In friend class, the members from the base class are accessible
+12. The member functions of the base class will be hidden in the derived class if functions with the same name are redefined in the derived class.
+11. protected inheritence: the protected and public members of the base class are grouped to the protected part of the derived class, again the private members of the base class are not inherited
+10. friend class in the base class is not inherited to the derived class
+9. public inheritence: protected members of the base class go to the protected part of the derived class and the public members of the base class go to the public part of the derived class, however the private part of the base class is not inherited to the derived class and the new defined memmbers of the derived class can not access base private members.
+8. public/protected/private inheritence: the private members of the base class can not be inherited, and the member functions of the new defined class can not access the private members of the base class, but the original member functions inherited from the base class can still access the private members
+7. final: make the classes inheriting from this class without modifying it.
+6. override: there is no actual functionality of override and it is just a tag saying the function is overridden, without this tag it still overrides the virtual function in the base class. It is a good practice to put this tag after the declaration, indicating this function is virtual in base class, and it is overridden in this class.
+5. abstract class: pure virtual functions make the class abstract, which can not be instantiated.
+4. virtual: defines a virtual function, which will be overriden in the derived class, when casted to the base class, the virtual functions will be overridden by those in the derived class, while other non-virtual functions will still be the ones in the original base class
+3. If the derived class has functions which share names with those in the base class, the derived class will only have those redefined in the derived class, hiding all those in the base class
+2. Inside the friend function/class, the instance of the class of interest can access the private and protected members, i.e. all members as if it was inside the class of interest.
+1. In class inheritence, the derived class can inherit from protected members of the base class, so the derived class can directly access them, but can not access the private members of the base class

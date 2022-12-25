@@ -1,0 +1,72 @@
+67. since classmethod can be called before creating a class instance, we can use it to create singleton or control the creation of instances
+66. classmethod can have access to the class object, not the instance; staticmethod has no access to class or instance, just store some logic related to the class/instance in its body
+65. syntactic sugar @ just takes the function object as the argument fed into the decorator, if the decorator return the original function object, then ok; if it returns a different function object which wraps the orignal one, then it will be different
+64. [f"{k}={repr(v)}" for k, v in kwargs.items()], here repr() will print '' if v is a string
+63. @functools.wraps(func) is interchangable with functools.update_wrapper(wrapper, func)
+62. functool.update_wrapper(wrapper, wrapped) works just as @functools.wraps(func)
+61. we can make class as an argument-taking decorator, which takes the arguemnt when constructing the class instance, and calls __call__ to decorate the method
+60. decorate a function by more than on decorator, i.e. just stack decorators @x@b
+59. @DECORATOR can also be used as a register, and not modify the function functionality
+58. decorator with arguments, def timeit(_func = None, *, intval = 0); as _func and intval can not coexist/co-set, it natually deals with decorator with/out arguments
+57. nonlocal makes a local variable in the inner scope a non-local, but also non-global, so the variable is referred as the one in the outer scope
+56. def f(): f._b += 2; f._b = 0; defines a function attribute
+55. functools.warps(func) keeps the wrapped function maintain their original signature
+54. datetime.now().year/month/day/hour/minute/second
+53. setattr(Me, 'name', 'zls'), delattr(Me, 'name')
+52. in meta class, we can both control class creation and instance creation
+51. in a class definition, __new__ can not control whether execute __init__ or not, so to create a singleton, we should do it through __call__ in the meta class
+50. we can modify the attributes of a class in its meta class __new__ method
+49. hasattr(Me, '__new__') or hasattr(me, '_a'); getattr(Me, '__new__') or getattr(me, '_a')
+48. In the ordinary class, the class attributes can be modified in __new__, can not be modified in other methods
+47. meta_class(type) -> __new__(mcls, name, bases, attrs), __init__(self, name, bases, attrs) -> controls the class creation
+46. In meta(type) class, __new__ and __init__ are for class creation, while __call__() is for class instance creation, which calls __new__ and __init__ methods in the class definition; so to control the class instance creation, we can simply rewrite metaclass __call__ method
+45. in order to save the changes made to the class attributes, we need to modify it in __new__ method, which is called before instance is created
+44. create a class, cl=type.__new__(type, "Me", (object,), {'__init__': init_func}), do not call cl.__init__(...) as it's for instance initialization;
+43. To add a function attribute to the object, it's better do it in the class level; while to add a value attribute to the object, we can simply do it in the object level if just this object needs it not the other objects
+42. attributes in the class can be changed dynamically
+41. if an object attempts to modify a class attribute, it just makes a copy of it, not really modify the class attribute
+40. a.b here . implicitly put object a as the first argument in b if b is a function
+39. the attributes of a class can be added dynamically, and the modifications are reflected on the objects created before the the modification taken place
+38. class Me: pass; when creating a Me instance, Me() is equivalent to Me.__new__() and me.__init__()
+37. the attributes of a class are the ones defined inside the class scope, like "def xx():..." or "_x=3"; while the attributes of a class object are the ones defined inside the methods, like in __init__() "self._a = 9..." or other functions, but they exist only after these methods are called; by obj._x=99 does not change the class attribute, it only defines _x as an attribute of the object, before which _x is not an attribute of the object, but obj._x will returns the attribute of the class if not exist in the object yet
+36. class factories (create classes dynamically): type(name, bases_tuple, attrs_dict) returns a new class, which can be called like this cl()
+35. super(Me, cls).__new__(cls) creates an object, if returned, its __init__() will be called
+34. multiprocessing.Pool().map(fun, range(30)) keeps the order of the outputs as that of the intpus, but the execution can be arbitrary
+33. multiprocessing.Pool(processes=3).apply_async(f, args=()) submits ${processes} processes at once, and continues running the rest f's when one or more processes are done
+32. multiprocessing.Pool().apply(f, args=()) waits till f is done; [pool.apply() for _ in range(3)] actually runs f one by one serially
+31. mulitprocessing.Manager() supports with statement, so outside of the with block, we can not use the manager object
+30. multiprocessing.Process and multiprocessing.Pool differ: the former loads all tasks into memory, while the latter loads the specified number of tasks into memory and holds the rest queued tasks out of memory
+29. map(f, range(9), range(3)) returns an iterator which executes f for each pair of elements from the two iterables. (terminates at the shortest iterator)
+28. multiprocessing.Manager().list()/dict()/Value()/Array() works just as well as the mp counterparts, but all other synchronizing primitives are not working as expected
+27. multiprocessing.Array('i', [2,3], lock=True) get_lock() to ensure the array is accessed by just one thread
+26. multiprocessing.Value("i", 2, lock=True) creats a value in shared memory, by a.get_lock() we can acquire the lock and ensure process-safe for the value; for a character, it should be byte "{}".format(i).encode("utf-8"); to convert byte to string b"2".decode("utf-8")
+25. multiprocessing.RLock() works just like threading.RLock(), but for the same process
+24. multiprocessing.Lock() works just like threading.Lock()
+23. multiprocessing.Process().terminate() kills that process
+22. multiprocessing.Barrier() works just like threading.Barrier()
+21. multiprocessing.Event() works just like threading.Event()
+20. multiprocessing.Process() similar to threading.Thread(), both can be inherented from the base class
+19. threading.Condition.wait_for(predicate, timeout) limits the maximum time to wait as timeout
+18. threading.Barrier().wait(timeout) will throw a BrokenBarrierError if timeout is reached
+17. threading.Event().wait(timeout) returns True if set() is called while it's waiting, False if set() is not called before timint out
+16. threading.Condition() .notify() has to be for an already acquired lock, and only notify the threads that are already waiting on the lock; .wait() releases the lock and wait; supports with statement;
+15. threading.Lock() supports context manager "with" statement
+14. threading.RLock() not only ensures that only one thread access the critical block at a time, but also enables reacquiring the the same multiple times without requiring the outer lock released; the number of acquire() and release() has to be the same, otherwise it won't release the lock, so other threads won't be able to acquire the lock, thus deadlocking.
+13. threading.Lock() ensures only one thread has the lock at a time, lock.acquire(); some_critical_code_block; lock.release(); when more than one threads are waiting, the subsequent thread acquires the lock after the previous one releases it
+12. To exchange info through immutables, we need to make the immutables global in the scope where its value is changed.
+11. To modify a global immutable in a function, we can in the function declare it as a global in order to avoid referenced before assignment error
+10. threading.Barrier() blocks a set of threads until a certain number of them called wait(); it can be used recursively, i.e. as long as parties==n_waiting, all waiting threads are unblocked, and wait() can be reused again to form another blocking
+9. threading.Event() can be used to synchronize threads. set() sets the event to be true; is_set() returns true if set() is called; clear() resets the event to be false; wait() blocks the current if the event is not set(); wait(timeout) blocks in timeout period
+8. (ERROR, WRONG) To exchange information between threads, we should never use immutables, as they do not reflect the changes made by one thread in other threads
+7. a = 9;
+   def f():
+	# the global immutable variable can only be referenced, not assigned, except mutables
+	print (a) # throw "referenced before assignment" error
+	a += 1
+   
+6. set attributes of an object, e.g. setattr(function_obj, "__doc__", "some docstring")
+5. To be a closure, make sure nested function, reutrn function object, and at least one variable in the outer function is used inside. closure_obj.__closure__[0].cell_contents; [i] depends on the number of varibles enclosed
+4. closure returns a different object whenever called
+3. a=[2]; b = a[:] -> id(a) != id(b) -> deep copy
+2. swap two values: a, b = b, a
+1. "with CONTEXTMANAGER() as cm:" -> inside CONTEXTMANAGER(), __enter__(self), __exit__(self, excp_type, excp_value, excp_traceback) need to be implemented; __enter__() does not need to return anything
