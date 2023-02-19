@@ -1,3 +1,8 @@
+#======= 182 =======
+# open two files and display them in one section in vim
+vim -o *
+vim -O *
+
 #======= 181 =======
 # show/hide window tabs in xshell
 ctl+shift+T
