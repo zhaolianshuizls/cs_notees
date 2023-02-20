@@ -1,3 +1,15 @@
+#========= 335 =========
+for i in range(5):
+    try:
+        if i > 2:
+            print("break", i)
+            # even though break from the loop, the finally section is still executetd
+            break
+    finally:
+        print("finally", i)
+    print("end", i)
+
+"""
 #========= 334 =========
 # test whether sorted data can boost performance in python, it turns out no.
 import random
@@ -21,7 +33,7 @@ for _ in range(1000):
 t2 = time.perf_counter()
 print(t2 - t1)
 
-"""
+
 #========== 333 ==========
 # This is to practice action in argparse
 import argparse
