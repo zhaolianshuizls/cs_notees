@@ -1,3 +1,25 @@
+#========= 336 =========
+class DEC:
+    def __init__(self, name):
+        self._name = name
+    def __call__(self, fn):
+        print("__call__")  # called when decorating the function
+        def wrapper(*args, **kwargs):
+            print(1)
+            fn(*args)
+            print(2)
+        return wrapper
+
+print("before being decorated")
+@DEC("dec")
+def f(a, b):
+    print(a, b)
+print("after being decorated")
+f("zls", "dsy")
+    
+
+
+"""
 #========= 335 =========
 for i in range(5):
     try:
@@ -9,7 +31,7 @@ for i in range(5):
         print("finally", i)
     print("end", i)
 
-"""
+
 #========= 334 =========
 # test whether sorted data can boost performance in python, it turns out no.
 import random
