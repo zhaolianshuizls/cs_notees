@@ -1,3 +1,19 @@
+#========= 338 =========
+class Me:
+    a = "Me"
+    def __ini__(self):
+        pass
+
+print("class", Me.a)
+me = Me()
+print("instance", me.a, me.__dict__)
+me.a = 9  #add an attribute to instance, not change the attribute of class
+print("instance", me.a, me.__dict__)
+print("class", Me.a)
+
+
+
+"""
 #========= 337 =========
 def dec(cls):
     print("\tin dec")
@@ -19,7 +35,6 @@ print("after dec")
 me = Me("zls", 30)
 
 
-"""
 #========= 336 =========
 class DEC:
     def __init__(self, name):
