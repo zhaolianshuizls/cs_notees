@@ -1,3 +1,25 @@
+#========= 337 =========
+def dec(cls):
+    print("\tin dec")
+    def wrapper(*args, **kwargs):
+        print("before creating")
+        obj = cls(*args, **kwargs)
+        print("after creating")
+        return obj
+    return wrapper
+
+print("before dec")
+@dec
+class Me:
+    def __init__(self, name, age):
+        self._name = name
+        self._age = age
+print("after dec")
+
+me = Me("zls", 30)
+
+
+"""
 #========= 336 =========
 class DEC:
     def __init__(self, name):
@@ -18,8 +40,6 @@ print("after being decorated")
 f("zls", "dsy")
     
 
-
-"""
 #========= 335 =========
 for i in range(5):
     try:
