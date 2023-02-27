@@ -1,3 +1,13 @@
+#========= 339 =========
+class Me:
+    def test(self):  # an attribute of Me class, not its object
+        print("test")
+
+Me.__dict__["test"](Me())
+print(Me.__dict__)
+
+
+"""
 #========= 338 =========
 class Me:
     a = "Me"
@@ -12,8 +22,6 @@ print("instance", me.a, me.__dict__)
 print("class", Me.a)
 
 
-
-"""
 #========= 337 =========
 def dec(cls):
     print("\tin dec")
