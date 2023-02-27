@@ -1,3 +1,19 @@
+#========= 340 =========
+class Me:
+    def __init__(self):
+        self.a = 2
+        self.b = 3
+    def test(self):
+        self.c = 4
+
+me = Me()  # __init__ is called under the hook, so only a and b are registered
+print(me.__dict__)
+me.test() # new attr
+print(me.__dict__)
+
+
+
+"""
 #========= 339 =========
 class Me:
     def test(self):  # an attribute of Me class, not its object
@@ -7,7 +23,6 @@ Me.__dict__["test"](Me())
 print(Me.__dict__)
 
 
-"""
 #========= 338 =========
 class Me:
     a = "Me"
