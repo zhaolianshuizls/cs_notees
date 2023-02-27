@@ -1,3 +1,34 @@
+#========= 343 =========
+class DES:
+    def __init__(self, a):
+        self.b = 3  # never used
+        self.a = a
+    def __get__(self, instance, cls):  # only called when it's an attribute of a class
+        print("__get__")
+        return self.a
+    def __set__(self, instance, value):
+        print("__set__")
+        self.a = value
+    def __delete__(self, instance):
+        print("__delete__")
+        del self.a
+    def __getattr__(self, key):
+        print("key " + str(key) + " not found")
+
+class P:
+    d = DES(2)
+
+p = P()
+print(p.d, type(p.d))
+p.d = 3
+del p.d
+p.d
+
+d = DES(3)
+print(d.__dict__.keys())
+d.a = 9
+
+"""
 #========= 342 =========
 class P:
     x = 0
@@ -34,7 +65,6 @@ print("----")
 p.test()
 
 
-"""
 #========= 341 =========
 class P:
     def __init__(self):
