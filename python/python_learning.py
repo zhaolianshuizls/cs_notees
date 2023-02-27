@@ -1,3 +1,40 @@
+#========= 342 =========
+class P:
+    x = 0
+    def __init__(self, a, b):
+        self.a = a
+        self.b = b
+    def __setattr__(self, key, value):
+        print("setting key", key, "with value", value)
+        self.__dict__[key] = value
+    def __delattr__(self, key):
+        raise AttributeError("Key " + str(key) + " can not be deleted")
+    def __getattr__(self, key):
+        if key not in self.__dict__.keys():
+            return "invalid"
+        else:
+            raise AttributeError("should never get here")
+    def __getattribute__(self, key):  # always call it for dot operator
+        print("__getattribute__ ")
+        return super().__getattribute__(key)
+    def test(self):
+        pass
+
+print(P.__dict__.keys())
+p = P(2, 3)  # initialize p by calling __setattr__
+print(p.__dict__.keys())
+p.x = 4  # add new attribute to p by calling __setattr__
+print(p.__dict__.keys())
+#del p.a
+print(p.xx)
+print(p.__dict__.keys())
+print("----")
+p.__dict__
+print("----")
+p.test()
+
+
+"""
 #========= 341 =========
 class P:
     def __init__(self):
@@ -12,7 +49,6 @@ c = C()
 print(c.__dict__)
 
 
-"""
 #========= 340 =========
 class Me:
     def __init__(self):
