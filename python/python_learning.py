@@ -1,3 +1,18 @@
+#========= 341 =========
+class P:
+    def __init__(self):
+        self.p = 3
+
+class C(P):
+    def __init__(self):
+        self.c = 4
+        super(C, self).__init__()  # has to be called explicitly
+
+c = C()
+print(c.__dict__)
+
+
+"""
 #========= 340 =========
 class Me:
     def __init__(self):
@@ -12,8 +27,6 @@ me.test() # new attr
 print(me.__dict__)
 
 
-
-"""
 #========= 339 =========
 class Me:
     def test(self):  # an attribute of Me class, not its object
