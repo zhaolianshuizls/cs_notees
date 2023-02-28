@@ -1,3 +1,28 @@
+#========= 345 =========
+class my_classmethod:
+    def __init__(self, func):
+        self.func = func
+    def __get__(self, instance, cls):
+        print("__get__")
+        self.cls = cls
+        return self
+    def __call__(self, *args, **kwargs):
+        print("1 __call__")
+        self.func(self.cls, *args, **kwargs)  # has to pass the class as the first parameter
+        print("2 __call__")
+
+class P:
+    @my_classmethod
+    def test(cls):
+        print("\ttest")
+
+p = P()
+p.test()
+
+
+
+
+"""
 #========= 344 =========
 class DES:
     def __init__(self, a):
@@ -33,8 +58,6 @@ print(id(p.a), p.a)
 print(id(P.a), P.a)
 
 
-
-"""
 #========= 343 =========
 class DES:
     def __init__(self, a):
