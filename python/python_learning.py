@@ -1,3 +1,40 @@
+#========= 344 =========
+class DES:
+    def __init__(self, a):
+        self.a = a
+    def __get__(self, instance, cls):
+        print("__get__", self.a)
+        return self.a
+    def __set__(self, instance, value):
+        print("__set__", value)
+        self.a = value
+
+class P:
+    # when class attribute and instance attribute share the name, and also the class attribute
+    # is a descriptor object, the class and the object share the same attribute, and its descriptor
+    # value can only be changed by the object not by the class. If the class changes its value
+    # the connection breaks
+    a = DES(2)
+    def __init__(self, a):
+        self.a = a
+
+p = P(3)
+print(id(p.a))
+print(id(P.a))
+p.a = 99  # NOT break the connection
+P.a
+P.a = 999 # breaks the descriptor connection, but still share the same object
+p.a
+P.a
+print(id(p.a), p.a)
+print(id(P.a), P.a)
+p.a = 9999 # a different object other than the class attribute
+print(id(p.a), p.a)
+print(id(P.a), P.a)
+
+
+
+"""
 #========= 343 =========
 class DES:
     def __init__(self, a):
@@ -28,7 +65,7 @@ d = DES(3)
 print(d.__dict__.keys())
 d.a = 9
 
-"""
+
 #========= 342 =========
 class P:
     x = 0
