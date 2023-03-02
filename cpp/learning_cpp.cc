@@ -1,8 +1,40 @@
+//====== 456 ======
+#include <iostream>
+struct Me{
+    int age;
+};
+
+int main() {
+    struct Me me = {234};
+    std::cout << me.age << "\n";
+}
+
+/*
 //====== 455 ======
 #include <vector>
 #include <iostream>
 
+#define A(a) \
+    "sd sd sd" \
+    a \
+    "end"
+
+#define B(b) \
+    std::cout << "enter: " << \
+    b << "\nend\n"
+
+#define TYPE(type) \
+    type
+
+template<bool x>
+void test_x() {
+    std::cout << x << "\n";
+}
+
 int main() {
+    TYPE(int) aa = 3;
+    bool bb = aa > 3 ? true : false;
+
     std::vector<int> a(9,3);  // 9-element vector holding 3, 3, 3, ...
     std::cout<< a.size() << " " << a[8] << "\n";
 
@@ -12,8 +44,11 @@ int main() {
     int c = -1;
     uint32_t d = -1;
     std::cout << d << "\n";
+    std::cout << A("SD") << "\n";
+
+    B("xxx");
 }
-/*
+
 //======= 454 ======
 #include <iostream>
 #include <cfloat>
