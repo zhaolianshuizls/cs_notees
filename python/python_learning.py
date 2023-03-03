@@ -1,3 +1,29 @@
+#========= 346 =========
+class P:
+    def __init__(self):  # is called under the hood if the child class does not override it
+        self.p1 = 3
+        self.p2 = 4
+    def f_p(self):
+        print("f_p")
+    def f(self):
+        print("f in P")
+
+class C(P):
+    def f_c(self):
+        print("f_c")
+    def f(self):  # override f in P, but still we can call it by super()
+        print("f in C")
+        print("call f in P")
+        super().f()
+
+c = C()
+c.f_p()
+c.f_c()
+c.f()
+print(c.__dict__)
+
+
+"""
 #========= 345 =========
 class my_classmethod:
     def __init__(self, func):
@@ -20,9 +46,6 @@ p = P()
 p.test()
 
 
-
-
-"""
 #========= 344 =========
 class DES:
     def __init__(self, a):
