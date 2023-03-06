@@ -1,3 +1,37 @@
+#========= 348 =========
+class MyContextManager:
+    def __init__(self, func_gen):
+        print("decorating")
+        self.func_gen = func_gen
+    def __call__(self, *args, **kwargs):
+        self.args = args
+        self.kwargs = kwargs
+        return self  # has to return an instance when calling func_gen(3)
+    def __enter__(self):
+        self.func_gen = self.func_gen(*self.args, **self.kwargs)
+        return next(self.func_gen)
+    def __exit__(self, error_type, error_value, error_tb):
+        if error_type:
+            print(error_type, error_value, error_tb)
+        try:
+            next(self.func_gen)
+        except:
+            print("final next error")
+        return True # has to return true if the error is handled
+
+@MyContextManager
+def func_gen(a):
+    print("func_gen begin")
+    yield a
+    print("func_gen end")
+
+print("========= before with block ======")
+with func_gen(3) as a:
+    print("\tin with block a", a)
+    raise ValueError("NONO")
+
+
+"""
 #========= 347 =========
 def func_gen(a):
     print("func_gen begin")
@@ -15,7 +49,6 @@ for i in func_gen(4):
     print("-------------")
 
 
-"""
 #========= 346 =========
 class P:
     def __init__(self):  # is called under the hood if the child class does not override it
