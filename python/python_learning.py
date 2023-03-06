@@ -1,3 +1,21 @@
+#========= 347 =========
+def func_gen(a):
+    print("func_gen begin")
+    yield a
+    print("func_gen end")
+    yield
+
+gen = func_gen(3)
+a = next(gen)
+print(a)
+next(gen)
+print("===========")
+for i in func_gen(4):
+    print(i)
+    print("-------------")
+
+
+"""
 #========= 346 =========
 class P:
     def __init__(self):  # is called under the hood if the child class does not override it
@@ -23,7 +41,6 @@ c.f()
 print(c.__dict__)
 
 
-"""
 #========= 345 =========
 class my_classmethod:
     def __init__(self, func):
