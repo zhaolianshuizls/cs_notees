@@ -1,3 +1,12 @@
+#========= 349 =========
+def f(a, b, *, c = 4, d = 5):  #c and d have to be passed by keyword
+    print(a+b)
+    print (c + d)
+
+f(2,3,d=4,c=5)  # can not do f(2,3,4,5)
+
+
+"""
 #========= 348 =========
 class MyContextManager:
     def __init__(self, func_gen):
@@ -31,7 +40,6 @@ with func_gen(3) as a:
     raise ValueError("NONO")
 
 
-"""
 #========= 347 =========
 def func_gen(a):
     print("func_gen begin")
