@@ -1,12 +1,17 @@
 //====== 457 ======
 #include <iostream>
 #include "a.h"
-
 // function declaration implicitly takes extern
-void x();
-void x();
+void y();
+void y();
+
+// can not do this, as it's not inside a function, so everything written
+// here has to be in the form of type-name-definition
+//int z;
+//z = 9;
 
 int main() {
+x = 99;
     std::cout << v << "\n";
     reset();
     std::cout << v << "\n";
