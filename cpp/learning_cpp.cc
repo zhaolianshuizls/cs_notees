@@ -1,3 +1,19 @@
+//====== 457 ======
+#include <iostream>
+#include "a.h"
+
+extern int v;
+
+int main() {
+    std::cout << v << "\n";
+    reset();
+    std::cout << v << "\n";
+    reset();
+    std::cout << v << "\n";
+}
+
+
+/*
 //====== 456 ======
 #include <iostream>
 struct Me{
@@ -9,7 +25,6 @@ int main() {
     std::cout << me.age << "\n";
 }
 
-/*
 //====== 455 ======
 #include <vector>
 #include <iostream>
