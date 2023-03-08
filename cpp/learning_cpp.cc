@@ -2,7 +2,9 @@
 #include <iostream>
 #include "a.h"
 
-extern int v;
+// function declaration implicitly takes extern
+void x();
+void x();
 
 int main() {
     std::cout << v << "\n";
