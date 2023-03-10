@@ -1,3 +1,8 @@
+#======= 183 =======
+#after setting up public-key authentication in ssh, we can simply 
+ssh 10.100.146.23 # to this node without passing username as long as the username is the same on both ends (whoami to show the username)
+ssh 10.100.146.23 -o StrictHostKeyChecking=no  # connect anyway for the very first time (remote node is not in the local known hosts file)
+
 #======= 182 =======
 # open two files and display them in one section in vim
 vim -o *
