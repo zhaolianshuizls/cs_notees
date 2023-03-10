@@ -1,13 +1,31 @@
+//====== 459 ======
+#include <string>
+#include <vector>
+#include <iostream>
+
+int main() {
+    std::string a = "abcdefgh";
+
+    for (auto it = a.begin(); it < a.end(); ++it) {
+        std::cout << *it << "\n";
+    }
+    std::vector<int> b = {2, 3, 4};
+    for (auto it = b.begin(); it < b.end(); ++it) {
+        std::cout << *it << "\n";
+    }
+}
+
+
+/*
 //====== 458 ======
 #include <iostream>
 #include <string>
 
 int main() {
-    std::cout << __FILE__ << " " << __LINE__ << "\n";
+    std::cout << std::string(__FILE__) << " " << __LINE__ << "\n";
 }
 
 
-/*
 //====== 457 ======
 #include <iostream>
 #include "a.h"
