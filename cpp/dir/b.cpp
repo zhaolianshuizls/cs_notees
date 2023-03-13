@@ -21,3 +21,10 @@ static int getCount() {
 }
 
 int She::count = getCount();
+
+static int getval() {
+    std::cout << "b.cpp getval \n";
+    return 23;
+}
+
+static int val = getval();

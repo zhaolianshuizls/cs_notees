@@ -1,3 +1,21 @@
+//====== 463 ======
+#include <iostream>
+
+int getVal() {
+    std::cout << "learning_cpp.cpp getVal\n";
+    return 230;
+}
+
+int val = getVal();  // global variables are initialized before main function runs
+
+int main() {
+    std::cout << "----- main -----\n";
+    std::cout << val << "\n";
+}
+
+
+
+/*
 //====== 462 ======
 #include <iostream>
 class Me {
@@ -15,7 +33,6 @@ int main() {
 }
 
 
-/*
 //====== 461 ======
 #include <type_traits>
 #include <string>
