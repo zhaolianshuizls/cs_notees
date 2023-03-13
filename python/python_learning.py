@@ -1,3 +1,10 @@
+#========= 350 =========
+import subprocess
+# log onto a remote node and do something on a server
+subprocess.run(["ssh", "-o", "StrictHostKeyChecking=no", "10.100.195.29", "touch remote; ls; rm remote; python test.py"])
+
+
+"""
 #========= 349 =========
 def f(a, b, *, c = 4, d = 5):  #c and d have to be passed by keyword
     print(a+b)
@@ -6,7 +13,6 @@ def f(a, b, *, c = 4, d = 5):  #c and d have to be passed by keyword
 f(2,3,d=4,c=5)  # can not do f(2,3,4,5)
 
 
-"""
 #========= 348 =========
 class MyContextManager:
     def __init__(self, func_gen):
