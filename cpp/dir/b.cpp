@@ -14,3 +14,10 @@ void test(T a) {
 // template instantiation
 template
 void test<float>(float);
+
+static int getCount() {
+    std::cout << "in dir/b.cpp getCount\n";
+    return 23;
+}
+
+int She::count = getCount();

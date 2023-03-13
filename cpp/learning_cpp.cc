@@ -1,3 +1,24 @@
+//====== 460 ======
+#include <iostream>
+
+class Me {
+    public:
+        static int count;
+};
+
+int getCount() {
+    std::cout << "initialize count value\n";
+    return 23;
+}
+
+int Me::count = getCount();  // can not be initialized at compile time, so have to be initialized at runtime, just before the main() runs
+
+int main() {
+    std::cout << "====== main =======\n";
+}
+
+
+/*
 //====== 459 ======
 #include <string>
 #include <vector>
@@ -16,7 +37,6 @@ int main() {
 }
 
 
-/*
 //====== 458 ======
 #include <iostream>
 #include <string>
