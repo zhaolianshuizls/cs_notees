@@ -1,3 +1,28 @@
+//====== 464 ======
+#include <iostream>
+
+class P {
+    public:
+        static int a;
+};
+
+int P::a = 23;
+
+class C: public P {
+};
+
+int main() {
+    P::a = 99;
+    C c1;
+    std::cout << c1.a << "\n";
+    P::a = 88;
+    C c2;
+    std::cout << c1.a << "\n";
+    std::cout << c2.a << "\n";
+}
+
+
+/*
 //====== 463 ======
 #include <iostream>
 
@@ -13,9 +38,6 @@ int main() {
     std::cout << val << "\n";
 }
 
-
-
-/*
 //====== 462 ======
 #include <iostream>
 class Me {
