@@ -1,3 +1,41 @@
+//====== 465 ======
+// mimic dynamic polymorphism implementation
+// 1) virtual table for each class
+// 2) the vptr should be inherited and assigned with different vtable
+#include <iostream>
+
+class P {
+    protected:
+        int *vptr = vtable_p;
+    public:
+        int *vptr_public = vptr;
+    private:
+        static int vtable_p[2];
+};
+int P::vtable_p[2] = {2, 3};
+
+class C: public P {
+    public:
+        C() {
+            vptr = vtable_c;
+            vptr_public = vptr;
+        }
+    private:
+        static int vtable_c[2];
+};
+int C::vtable_c[2] = {4, 5};
+
+int main() {
+    C c;
+    std::cout << c.vptr_public[1] << "\n";
+    P &p = c;
+    std::cout << p.vptr_public[1] << "\n";
+    P *ptr = &c;
+    std::cout << ptr->vptr_public[1] << "\n";
+}
+
+
+/*
 //====== 464 ======
 #include <iostream>
 
@@ -22,7 +60,6 @@ int main() {
 }
 
 
-/*
 //====== 463 ======
 #include <iostream>
 
