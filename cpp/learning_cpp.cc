@@ -1,3 +1,33 @@
+//====== 467 ======
+#include <iostream>
+
+class P {
+  public:
+    static void f() {  // function pointer type is of void (*)()
+        std::cout << "static f\n";
+    }
+    void g() { // function pointer type is of void (P::*)()
+        std::cout << "obj g\n";
+    }
+};
+
+void run_static(void (*f)()) {  // regular function or static member function in a class
+    (*f)();
+}
+
+void run_g(void (P::*g)()) {  // class non-static member function, should add class scope
+    P p;
+    (p.*g)();
+    p.f();
+}
+
+int main() {
+    run_static(&P::f);
+    run_g(&P::g);
+}
+
+
+/*
 //====== 466 ======
 #include <iostream>
 
@@ -32,7 +62,6 @@ int main() {
 }
 
 
-/*
 //====== 465 ======
 // mimic dynamic polymorphism implementation
 // 1) virtual table for each class
