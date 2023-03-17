@@ -1,3 +1,38 @@
+//====== 466 ======
+#include <iostream>
+
+class P {
+    public:
+        virtual void func() {
+            std::cout << "P func\n";
+        }; 
+};
+
+class C: public P {
+    public:
+        void func() {
+            std::cout << "C func\n";
+        }
+};
+
+void run_func(P *p, void (P::*func)()) {
+    (p->*func)();
+}
+
+int main() {
+    C c;
+    std::cout << "--------- original virtual function\n";
+    c.func();
+    std::cout << "--------- not desired\n";
+    (c.P::func)();
+    std::cout << "--------- desired\n";
+    (c.*&P::func)();
+    std::cout << "--------------------------\n";
+    run_func(&c, &P::func);
+}
+
+
+/*
 //====== 465 ======
 // mimic dynamic polymorphism implementation
 // 1) virtual table for each class
@@ -35,7 +70,6 @@ int main() {
 }
 
 
-/*
 //====== 464 ======
 #include <iostream>
 
