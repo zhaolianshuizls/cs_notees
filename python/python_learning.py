@@ -1,10 +1,10 @@
+"""
 #========= 350 =========
 import subprocess
 # log onto a remote node and do something on a server
 subprocess.run(["ssh", "-o", "StrictHostKeyChecking=no", "10.100.195.29", "touch remote; ls; rm remote; python test.py"])
 
 
-"""
 #========= 349 =========
 def f(a, b, *, c = 4, d = 5):  #c and d have to be passed by keyword
     print(a+b)
@@ -87,10 +87,11 @@ c.f_c()
 c.f()
 print(c.__dict__)
 
-
+"""
 #========= 345 =========
 class my_classmethod:
     def __init__(self, func):
+        print("inside the class being decorated")
         self.func = func
     def __get__(self, instance, cls):
         print("__get__")
@@ -105,11 +106,12 @@ class P:
     @my_classmethod
     def test(cls):
         print("\ttest")
-
+print("------------------")
 p = P()
-p.test()
+print("------------------")
+p.test()  #first get the attribute test from p, which will invoke __get__, later invoke __call__ method of the object returned by __get__
 
-
+"""
 #========= 344 =========
 class DES:
     def __init__(self, a):
