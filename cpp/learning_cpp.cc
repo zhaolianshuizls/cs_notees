@@ -1,3 +1,20 @@
+//====== 468 ======
+// strongly recommend to use enum class as it's strongly typed and its elelments are local
+#include <iostream>
+
+int main() {
+    enum class Person {You, Me};
+    enum class Animal {Dog, Cat};
+
+    Person p = Person::Me;
+    Animal a = Animal::Dog;
+
+    // std::cout << p << "\n";
+    // bool b = (p == a);
+}
+
+
+/*
 //====== 467 ======
 #include <iostream>
 
@@ -27,7 +44,7 @@ int main() {
 }
 
 
-/*
+
 //====== 466 ======
 #include <iostream>
 
