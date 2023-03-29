@@ -1,3 +1,24 @@
+#========= 351 =========
+# ABC is an abstract interface, which can not be instantiated
+# To create a customized abstract interface, ABC has to be inherited and
+# abstractmethod has to decorate one of its attributes
+from abc import ABC, abstractmethod
+
+class Interface(ABC):  # has to inherit from ABC
+    @abstractmethod
+    def do_sth(self):
+        print("Interface do_sth")
+
+#Interface().do_sth() # abstract class can not be instantiated
+class Concrete(Interface):
+    def do_sth(self):
+        print("Concrete do_sth")
+        super().do_sth()
+
+Concrete().do_sth()
+
+
+
 """
 #========= 350 =========
 import subprocess
@@ -87,7 +108,6 @@ c.f_c()
 c.f()
 print(c.__dict__)
 
-"""
 #========= 345 =========
 class my_classmethod:
     def __init__(self, func):
@@ -111,7 +131,6 @@ p = P()
 print("------------------")
 p.test()  #first get the attribute test from p, which will invoke __get__, later invoke __call__ method of the object returned by __get__
 
-"""
 #========= 344 =========
 class DES:
     def __init__(self, a):
