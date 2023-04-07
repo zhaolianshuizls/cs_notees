@@ -1,3 +1,21 @@
+//====== 469 ======
+// check if a string starts with a certain pattern
+#include <iostream>
+#include <string>
+
+int main() {
+    std::string s1 = "zls_dsy_zwy";
+    std::string pattern = "zlsx";
+
+    if (s1.rfind(pattern, 0) == 0) {
+        std::cout << "head match\n";
+    } else {
+        std::cout << "head mismatch\n";
+    }
+}
+
+
+/*
 //====== 468 ======
 // strongly recommend to use enum class as it's strongly typed and its elelments are local
 #include <iostream>
@@ -14,7 +32,6 @@ int main() {
 }
 
 
-/*
 //====== 467 ======
 #include <iostream>
 
