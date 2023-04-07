@@ -1,3 +1,15 @@
+//====== 470 ======
+#include <iostream>
+
+int main(int argc, char ** argv) {
+    std::cout << "argc " << argc << "\n";
+    for(int i = 0; i < argc; ++i) {
+        printf("%s\n", argv[i]);
+    }
+}
+
+
+/*
 //====== 469 ======
 // check if a string starts with a certain pattern
 #include <iostream>
@@ -12,10 +24,11 @@ int main() {
     } else {
         std::cout << "head mismatch\n";
     }
+
+    std::cout << (s1 == s1) << "\n";
 }
 
 
-/*
 //====== 468 ======
 // strongly recommend to use enum class as it's strongly typed and its elelments are local
 #include <iostream>
