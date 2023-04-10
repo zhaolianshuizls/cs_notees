@@ -1,3 +1,4 @@
+/*
 //====== 471 ======
 #include <iostream>
 #include <sstream>
@@ -10,9 +11,8 @@ int main() {
     ss << (a);
     std::cout << ss.str() << "\n";
 }
+*/
 
-
-/*
 //====== 470 ======
 #include <iostream>
 
@@ -21,9 +21,15 @@ int main(int argc, char ** argv) {
     for(int i = 0; i < argc; ++i) {
         printf("%s\n", argv[i]);
     }
+    // argv[argc] is guaranteed to be null, so make sure that it's true
+    // if modifying argv
+    for (int i = 0; i < 10; ++i) {
+        printf("argv[%d] %s\n", argc + i, argv[argc + i]);
+    }
 }
 
 
+/*
 //====== 469 ======
 // check if a string starts with a certain pattern
 #include <iostream>
