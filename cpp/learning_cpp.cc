@@ -1,4 +1,42 @@
+//====== 473 ======
+#include <iostream>
+
+int main() {
+    int a = 0x111 & 1;
+    std::cout << a << "\n";
+
+    union {
+        float b;
+        uint32_t c;
+    };
+    b = 1;
+    std::cout << c << "\n";
+
+    // uint->int: keep the binary intact
+    uint32_t x = 0x81000000;
+    int y = x;
+    printf("%u %x\n", x, x);
+    printf("%d %x\n", y, y);
+}
+
+
 /*
+//====== 472 ======
+#include <iostream>
+
+void f(int a) {
+    std::cout << "f(int a)\n";
+}
+
+void f(int *a) {
+    std::cout << "f(int *a)\n";
+}
+
+int main() {
+    f(nullptr);
+}
+
+
 //====== 471 ======
 #include <iostream>
 #include <sstream>
@@ -11,7 +49,7 @@ int main() {
     ss << (a);
     std::cout << ss.str() << "\n";
 }
-*/
+
 
 //====== 470 ======
 #include <iostream>
@@ -23,13 +61,14 @@ int main(int argc, char ** argv) {
     }
     // argv[argc] is guaranteed to be null, so make sure that it's true
     // if modifying argv
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 1; ++i) {
+        if (argv[argc] == NULL)
+            std::cout << "argv[argc] is NULL\n";
         printf("argv[%d] %s\n", argc + i, argv[argc + i]);
     }
 }
 
 
-/*
 //====== 469 ======
 // check if a string starts with a certain pattern
 #include <iostream>
