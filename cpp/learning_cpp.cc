@@ -1,3 +1,18 @@
+//====== 471 ======
+#include <iostream>
+#include <sstream>
+
+int main() {
+    std::ostringstream ss;
+    const char * a = "sd";
+    ss << "zls";
+    ss << "\n";
+    ss << (a);
+    std::cout << ss.str() << "\n";
+}
+
+
+/*
 //====== 470 ======
 #include <iostream>
 
@@ -9,7 +24,6 @@ int main(int argc, char ** argv) {
 }
 
 
-/*
 //====== 469 ======
 // check if a string starts with a certain pattern
 #include <iostream>
