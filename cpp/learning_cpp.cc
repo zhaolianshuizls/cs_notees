@@ -1,7 +1,18 @@
 //====== 473 ======
 #include <iostream>
 
+// macros can be indented
+#define zls 23
+#if defined zls
+    #define dsy zls * 10
+#endif
+
+int f(int a) {
+    return a;
+}
+
 int main() {
+    std::cout << dsy << "\n";
     int a = 0x111 & 1;
     std::cout << a << "\n";
 
@@ -13,10 +24,12 @@ int main() {
     std::cout << c << "\n";
 
     // uint->int: keep the binary intact
-    uint32_t x = 0x81000000;
-    int y = x;
+    int y = -1;
+    uint32_t x = y;//0x81000000;
     printf("%u %x\n", x, x);
     printf("%d %x\n", y, y);
+
+    f(x);
 }
 
 
