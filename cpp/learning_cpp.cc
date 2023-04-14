@@ -1,3 +1,13 @@
+//====== 474 ======
+// how to print nullptr
+#include <stdio.h>
+int main(int argc, char **argv) {
+    printf("str: %s\n", argv[argc]);  // call printf
+    //printf("%s\n", argv[argc]);  // call puts
+}
+
+
+/*
 //====== 473 ======
 #include <iostream>
 
@@ -33,7 +43,6 @@ int main() {
 }
 
 
-/*
 //====== 472 ======
 #include <iostream>
 
