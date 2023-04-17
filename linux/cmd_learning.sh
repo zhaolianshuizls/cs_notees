@@ -1,3 +1,9 @@
+#======= 184 =======
+# figure out if one branch is forked from another one in git
+git merge-base --fork-point base_branch sub_branch  # returns a commit id hwere sub_branch forks from base_branch
+git merge-base --fork-point sub_branch base_branch # returns nothing
+git merge-base --fork-point not_related_branch_1 not_related_branch_2 # returns nothing
+
 #======= 183 =======
 #after setting up public-key authentication in ssh, we can simply 
 ssh 10.100.146.23 # to this node without passing username as long as the username is the same on both ends (whoami to show the username)
