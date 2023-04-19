@@ -1,3 +1,24 @@
+//====== 475 ======
+// practice ASSERT_EQ etc. gtest macros
+#include <iostream>
+#include <sstream>
+
+std::stringstream ss;
+
+#define zls(pred)               \
+    if (pred)                   \
+        std::cout << "true\n";  \
+    else                        \
+        ss
+
+int main() {
+    zls(false) << "false\n";
+    std::cout << ss.str();
+    zls(true) << "";
+}
+
+
+/*
 //====== 474 ======
 // how to print nullptr
 #include <stdio.h>
@@ -7,7 +28,6 @@ int main(int argc, char **argv) {
 }
 
 
-/*
 //====== 473 ======
 #include <iostream>
 
