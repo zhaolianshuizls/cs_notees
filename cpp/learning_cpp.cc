@@ -1,3 +1,16 @@
+//====== 476 ======
+int main() {
+    int a = 32;
+    int b = 23;
+    const int * p_a = &a; // p_a points to a read-only space, but p_a can point to a different space
+    //*p_a = 32; // error
+    p_a = &b;
+    int * const pp_a = &a; // pp_a points to a free space, but pp_a can only point to a single space
+    *pp_a = 23;
+    // pp_a = &b;  // can not point to another space
+}
+
+/*
 //====== 475 ======
 // practice ASSERT_EQ etc. gtest macros
 #include <iostream>
@@ -18,7 +31,6 @@ int main() {
 }
 
 
-/*
 //====== 474 ======
 // how to print nullptr
 #include <stdio.h>
