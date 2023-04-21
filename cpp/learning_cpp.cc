@@ -1,3 +1,15 @@
+//====== 478 ======
+void func(){}
+
+int main() {
+    void (*f)();  // here f is a pointer variable with type of void(*)()
+    typedef void (*ff)();  // here ff is just void(*)()
+    f = func;
+    ff fff = func;
+}
+
+
+/*
 //====== 477 ======
 // test converting a cond to string using pre-process
 #include <iostream>
@@ -11,7 +23,6 @@ int main() {
 }
 
 
-/*
 //====== 476 ======
 int main() {
     int a = 32;
