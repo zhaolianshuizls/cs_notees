@@ -1,3 +1,17 @@
+//====== 477 ======
+// test converting a cond to string using pre-process
+#include <iostream>
+
+#define XXX(cond) \
+    if (cond)     \
+        std::cout << #cond << "\n"
+
+int main() {
+    XXX((2 > 1));
+}
+
+
+/*
 //====== 476 ======
 int main() {
     int a = 32;
@@ -10,7 +24,7 @@ int main() {
     // pp_a = &b;  // can not point to another space
 }
 
-/*
+
 //====== 475 ======
 // practice ASSERT_EQ etc. gtest macros
 #include <iostream>
