@@ -1,3 +1,20 @@
+//====== 479 ======
+#include <iostream>
+void test() noexcept(false) {  // noexcept: the exception will not travel up the function call, i.e the exception will
+               // not be caught by user's try-catch block
+    std::cout << __func__ << "\n";
+    throw 1;
+}
+
+int main() {
+    try {
+        test();
+    } catch (int i) {
+        std::cout << i << "\n";
+    }
+}
+
+/*
 //====== 478 ======
 void func(){}
 
@@ -9,7 +26,6 @@ int main() {
 }
 
 
-/*
 //====== 477 ======
 // test converting a cond to string using pre-process
 #include <iostream>
