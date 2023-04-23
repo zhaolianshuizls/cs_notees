@@ -1,3 +1,15 @@
+//====== 480 ======
+#include <iostream>
+#include <cmath>
+
+int main() {
+    // double n = std::nan("16");  // nan is for double
+    float n = std::nanf("16");
+    std::cout << std::hex << *((uint32_t *)&n) << "\n";
+}
+
+
+/*
 //====== 479 ======
 #include <iostream>
 void test() noexcept(false) {  // noexcept: the exception will not travel up the function call, i.e the exception will
@@ -14,7 +26,7 @@ int main() {
     }
 }
 
-/*
+
 //====== 478 ======
 void func(){}
 
