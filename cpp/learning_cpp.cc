@@ -1,3 +1,27 @@
+//====== 481 ======
+#include <iostream>
+
+class myException: public std::exception {
+    public:
+        myException() = default;
+        const char *what() const noexcept {  // const and noexcept
+            return "myException";
+        }
+};
+
+int main() {
+     try {
+        myException my_exception;
+        throw my_exception;
+     } catch(const myException &my_exception) {
+        std::cout << "myException " << my_exception.what() << "\n";
+     } catch (const std::exception &e) {
+        std::cout << "std::exception " << e.what() << "\n";
+     }
+}
+
+
+/*
 //====== 480 ======
 #include <iostream>
 #include <cmath>
@@ -9,7 +33,6 @@ int main() {
 }
 
 
-/*
 //====== 479 ======
 #include <iostream>
 void test() noexcept(false) {  // noexcept: the exception will not travel up the function call, i.e the exception will
@@ -56,7 +79,7 @@ int main() {
     int a = 32;
     int b = 23;
     const int * p_a = &a; // p_a points to a read-only space, but p_a can point to a different space
-    //*p_a = 32; // error
+    // *p_a = 32; // error
     p_a = &b;
     int * const pp_a = &a; // pp_a points to a free space, but pp_a can only point to a single space
     *pp_a = 23;
