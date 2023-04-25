@@ -1,3 +1,16 @@
+//====== 483 ======
+// ostrean and flush
+#include <iostream>
+
+int main() {
+    int a = 1;
+    std::ostream &o_stream = (a == 1) ? std::cout : std::cerr;  // no copy/move constructor
+    o_stream << 23 << "\n";
+    std::flush(o_stream);
+}
+
+
+/*
 //====== 482 ======
 // wrap around oss
 #include <iostream>
@@ -32,7 +45,7 @@ int main() {
     std::cout << "======\n";
 }
 
-/*
+
 //====== 481 ======
 #include <iostream>
 
