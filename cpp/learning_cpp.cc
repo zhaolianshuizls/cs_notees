@@ -1,3 +1,38 @@
+//====== 482 ======
+// wrap around oss
+#include <iostream>
+#include <sstream>
+
+class customOSS: public std::basic_ostringstream<char> {
+    public:
+        customOSS(std::string filename, int line_num): filename_(filename), line_num_(line_num) {}
+        ~customOSS() {
+            std::cout << "before\n";
+            printMessage();
+            std::cout << "after\n";
+        }
+    private:
+        void printMessage() {
+            std::cout << filename_ << ":" << line_num_ << " " << str() << "\n";
+        }
+        std::string filename_;
+        int line_num_;
+};
+
+int main() {
+    std::cout << "======\n";
+    {   // rvalue, so destructed immediately, which can be used to wrap print
+        customOSS(__FILE__, __LINE__) << "zls";
+        std::cout << "\t------\n";
+        customOSS(__FILE__, __LINE__) << "dsy";
+        std::cout << "\t------\n";
+        customOSS(__FILE__, __LINE__) << "zwy";
+        std::cout << "\t------\n";
+    }
+    std::cout << "======\n";
+}
+
+/*
 //====== 481 ======
 #include <iostream>
 
@@ -21,7 +56,6 @@ int main() {
 }
 
 
-/*
 //====== 480 ======
 #include <iostream>
 #include <cmath>
