@@ -1,3 +1,23 @@
+//====== 485 ======
+#include <iostream>
+
+
+int main() {
+    try {
+        try {
+            //throw std::runtime_error("xxx");
+            throw;  // won't be caught as it simply call terminate
+        } catch(...) {
+            std::cout << "1\n";
+        }
+    } catch(...) {
+        std::cout << "2\n";
+
+    }
+}
+
+
+/*
 //====== 484 ======
 #include <iostream>
 
@@ -17,7 +37,6 @@ int main() {
 }
 
 
-/*
 //====== 483 ======
 // ostrean and flush
 #include <iostream>
