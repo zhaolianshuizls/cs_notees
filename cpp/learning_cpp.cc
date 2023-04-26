@@ -1,3 +1,23 @@
+//====== 484 ======
+#include <iostream>
+
+class log {
+    public:
+        void operator=(int i) {
+        }
+};
+
+void test() {
+    // the function being returned is operator= method
+    return log()=3;  // the full expression is log().operator=(3);
+}
+
+int main() {
+    test();
+}
+
+
+/*
 //====== 483 ======
 // ostrean and flush
 #include <iostream>
@@ -10,7 +30,7 @@ int main() {
 }
 
 
-/*
+
 //====== 482 ======
 // wrap around oss
 #include <iostream>
