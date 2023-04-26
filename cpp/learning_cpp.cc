@@ -1,6 +1,39 @@
-//====== 485 ======
+//====== 486 ======
+// more practical way of using static variable in a function
 #include <iostream>
 
+int func() {
+    std::cout << "func\n";
+    return 23;
+}
+
+int test(int a) {
+    switch (a) {
+        case 0:
+            static int aa = func();
+            return aa;
+        case 1:
+            static int bb = func() + 1;
+            return bb;
+    }
+    return -1;
+}
+
+int main() {
+    int aa = test(0);
+    std::cout << aa << "\n";
+    int bb = test(1);
+    std::cout << bb << "\n";
+    std::cout << "static variables are all created, so no func should be printed later\n";
+    test(0);
+    test(1);
+    std::flush(std::cout);
+}
+
+
+/*
+//====== 485 ======
+#include <iostream>
 
 int main() {
     try {
@@ -17,7 +50,6 @@ int main() {
 }
 
 
-/*
 //====== 484 ======
 #include <iostream>
 
