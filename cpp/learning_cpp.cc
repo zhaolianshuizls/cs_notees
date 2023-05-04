@@ -1,3 +1,16 @@
+//====== 487 ======
+// print the address in std::cout by (void *)
+#include <iostream>
+
+int main () {
+    int a [4];
+    void *p_void = a;
+
+    std::cout << p_void << " " << (void *)((char *)p_void + 2) << "\n";
+}
+
+
+/*
 //====== 486 ======
 // more practical way of using static variable in a function
 #include <iostream>
@@ -31,7 +44,6 @@ int main() {
 }
 
 
-/*
 //====== 485 ======
 #include <iostream>
 
