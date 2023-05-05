@@ -1,3 +1,25 @@
+//====== 496 ======
+#include <list>
+#include <iostream>
+
+int main() {
+    std::list<std::pair<int, int>> l;
+    for (int i = 0; i < 5; ++i) {
+        l.emplace_back(std::pair<int, int>(i, i));
+    }
+    for (auto it = l.begin(); it != l.end(); ++it) {
+        std::cout << it->first << " " << it->second << "\n";
+    }
+    auto it = l.begin();
+    ++it;
+    l.insert(it, std::pair<int, int>(-1, -1));
+    std::cout << it->first << " " << it->second << "\n";
+    --it;
+    std::cout << it->first << " " << it->second << "\n";
+}
+
+
+/*
 //====== 495 ======
 #include <random>
 #include <iostream>
@@ -25,7 +47,7 @@ int main() {
     }
 }
 
-/*
+
 //====== 494 ======
 #include <iostream>
 class A {
