@@ -1,3 +1,26 @@
+//====== 494 ======
+#include <iostream>
+class A {
+    public:
+        explicit A(int num_): num(num_) { std::cout << "A " << num << "\n"; }
+        int num;
+};
+
+class B {
+    public:
+        B(int num_): a(num_) { std::cout << "B\n"; }
+        A a;
+};
+
+int main() {
+    // A a = 3; // explicit forbids this
+    A a(3);
+    B b(882);
+    std::cout << b.a.num << "\n";
+}
+
+
+/*
 //====== 493 ======
 // once seed is determined it always gets the same random value
 #include <random>
@@ -21,7 +44,6 @@ int main() {
 }
 
 
-/*
 //====== 492 ======
 #include <iostream>
 
