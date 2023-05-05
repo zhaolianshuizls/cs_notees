@@ -1,3 +1,19 @@
+//====== 488 ======
+// a constant object can not call a non-const member method
+class Me {
+    public:
+        void test() const{}
+        void func() {}
+};
+
+int main() {
+    const Me me;
+    // me.func();  // func is not const, so can not call by a const obj
+    (const_cast<Me *>(&me))->func();
+}
+
+
+/*
 //====== 487 ======
 // print the address in std::cout by (void *)
 #include <iostream>
@@ -6,11 +22,11 @@ int main () {
     int a [4];
     void *p_void = a;
 
+    std::cout << a << "\n";
     std::cout << p_void << " " << (void *)((char *)p_void + 2) << "\n";
 }
 
 
-/*
 //====== 486 ======
 // more practical way of using static variable in a function
 #include <iostream>
