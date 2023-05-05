@@ -1,3 +1,28 @@
+//====== 491 ======
+// initialize a shared_ptr in the constructor
+#include <memory>
+#include <iostream>
+
+struct data{
+    float a = 3.14;
+};
+class Me {
+    public:
+        //Me(): data_p(new data){}
+        Me(): data_p(std::make_shared<data>()) {}
+        int a = 2;
+        int b = 3;
+        std::shared_ptr<data> data_p = nullptr;
+};
+
+int main() {
+    std::shared_ptr<Me> me(new Me);
+    std::cout << me->a << "\n";
+    std::cout << me->data_p->a << "\n";
+}
+
+
+/*
 //====== 490 ======
 // constant folding in compile time, in order to get the real data at
 // run time, we need to use a const pointer to access its value
@@ -13,7 +38,6 @@ int main() {
 }
 
 
-/*
 //====== 489 ======
 // modify a const object by mutable
 #include <iostream>
