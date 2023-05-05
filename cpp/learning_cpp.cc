@@ -1,3 +1,55 @@
+//====== 493 ======
+// once seed is determined it always gets the same random value
+#include <random>
+#include <iostream>
+
+int main() {
+    std::random_device rd;
+    std::cout << rd() << "\n";
+    std::mt19937 eng1(rd()), eng2(rd());
+    // std::mt19937 eng1(1), eng2(1);
+
+    std::cout << eng1() << " " << eng2() << "\n";
+    std::cout << eng1() << " " << eng2() << "\n";
+    std::uniform_int_distribution<int> dst;
+    dst = std::move(std::uniform_int_distribution<int>(1, 8));
+    std::cout << dst (eng1) << "\n";
+    std::cout << dst (eng1) << "\n";
+    std::cout << dst (eng1) << "\n";
+    std::cout << dst (eng1) << "\n";
+    std::cout << dst (eng1) << "\n";
+}
+
+
+/*
+//====== 492 ======
+#include <iostream>
+
+class P {
+    public:
+        virtual ~P() {
+            destroy();
+        }
+        virtual void destroy() {
+            std::cout << "P destroy\n";
+        }
+};
+
+class C : public P {
+    public:
+        virtual ~C() {
+            destroy();
+        }
+        virtual void destroy() {
+            std::cout << "C destroy\n";
+        }
+};
+
+int main() {
+    C c;
+}
+
+
 //====== 491 ======
 // initialize a shared_ptr in the constructor
 #include <memory>
@@ -22,7 +74,6 @@ int main() {
 }
 
 
-/*
 //====== 490 ======
 // constant folding in compile time, in order to get the real data at
 // run time, we need to use a const pointer to access its value
