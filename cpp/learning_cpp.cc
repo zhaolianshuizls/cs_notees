@@ -1,3 +1,26 @@
+//====== 489 ======
+// modify a const object by mutable
+#include <iostream>
+class Me {
+    public:
+        int i = 3;
+        mutable int j = 4;
+        void test() const{
+            // i = 3;  // i is read-only
+            j = 23;
+        }
+};
+
+int main() {
+    const Me me;
+    // me.i = 4;  // can not modify i
+    me.j = 3;     // j is mutable
+    std::cout << me.i << me.j << "\n";
+    me.test();
+    std::cout << me.i << me.j << "\n";
+}
+
+/*
 //====== 488 ======
 // a constant object can not call a non-const member method
 class Me {
@@ -13,7 +36,6 @@ int main() {
 }
 
 
-/*
 //====== 487 ======
 // print the address in std::cout by (void *)
 #include <iostream>
