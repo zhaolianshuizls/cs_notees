@@ -1,3 +1,19 @@
+//====== 490 ======
+// constant folding in compile time, in order to get the real data at
+// run time, we need to use a const pointer to access its value
+#include <iostream>
+
+int main() {
+    const int a = 7;
+    const int *pa = &a;
+    int *p = const_cast<int *>(pa);
+    *p = 77;
+    std::cout << a + 1 << " " << *p + 1 << *pa + 1 << "\n";
+    std::cout << &a << " " << p << "\n";
+}
+
+
+/*
 //====== 489 ======
 // modify a const object by mutable
 #include <iostream>
@@ -20,7 +36,7 @@ int main() {
     std::cout << me.i << me.j << "\n";
 }
 
-/*
+
 //====== 488 ======
 // a constant object can not call a non-const member method
 class Me {
