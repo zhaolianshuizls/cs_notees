@@ -1,3 +1,31 @@
+//====== 495 ======
+#include <random>
+#include <iostream>
+
+class T {
+    public:
+        T(int a, int b) {
+            std::random_device rd;
+            eng.seed(rd());
+            //eng.seed(3);
+        }
+        size_t get() {
+            return uni_dist(eng);
+        }
+    private:
+        std::mt19937 eng;
+        std::uniform_int_distribution<int> uni_dist;
+};
+
+
+int main() {
+    T t(1, 9);
+    for (int i = 0; i < 10; ++i) {
+        std::cout << t.get() << "\n";
+    }
+}
+
+/*
 //====== 494 ======
 #include <iostream>
 class A {
@@ -20,7 +48,6 @@ int main() {
 }
 
 
-/*
 //====== 493 ======
 // once seed is determined it always gets the same random value
 #include <random>
