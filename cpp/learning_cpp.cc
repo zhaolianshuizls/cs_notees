@@ -1,3 +1,29 @@
+//====== 498 ======
+// in the constructor, if the argument name is the same as the data member
+// name, we can initialize it in the initializer list
+#include <list>
+#include <iostream>
+
+class M {
+    public:
+        M(int i): i(i) {}
+        void test() {
+            std::cout << i << "\n";
+        }
+    private:
+        int i;
+};
+
+int main() {
+    std::list<int> a;
+    std::cout << (a.begin() == a.end()) << "\n";
+
+    M m(32);
+    m.test();
+}
+
+
+
 /*
 //====== 497 ======
 // std::tie creats a lvalue reference and std::pair is a struct which can
@@ -42,7 +68,6 @@ int main() {
     --it;
     std::cout << it->first << " " << it->second << "\n";
 }
-*/
 
 //====== 495 ======
 // initialize uniform_int_distribution in the initializer list
@@ -72,7 +97,7 @@ int main() {
     }
 }
 
-/*
+
 //====== 494 ======
 #include <iostream>
 class A {
