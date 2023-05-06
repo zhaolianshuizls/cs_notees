@@ -1,3 +1,4 @@
+/*
 //====== 497 ======
 // std::tie creats a lvalue reference and std::pair is a struct which can
 // have lvalue reference, the same goes to std::tuple
@@ -22,7 +23,6 @@ int main() {
 }
 
 
-/*
 //====== 496 ======
 #include <list>
 #include <iostream>
@@ -42,20 +42,21 @@ int main() {
     --it;
     std::cout << it->first << " " << it->second << "\n";
 }
-
+*/
 
 //====== 495 ======
+// initialize uniform_int_distribution in the initializer list
 #include <random>
 #include <iostream>
 
-class T {
+class RandomNumber {
     public:
-        T(int a, int b) {
+        RandomNumber(int a, int b): uni_dist(a, b) {
             std::random_device rd;
             eng.seed(rd());
             //eng.seed(3);
         }
-        size_t get() {
+        size_t operator()() {
             return uni_dist(eng);
         }
     private:
@@ -65,13 +66,13 @@ class T {
 
 
 int main() {
-    T t(1, 9);
-    for (int i = 0; i < 10; ++i) {
-        std::cout << t.get() << "\n";
+    RandomNumber rand(1, 9);
+    for (int i = 0; i < 9; ++i) {
+        std::cout << rand() << "\n";
     }
 }
 
-
+/*
 //====== 494 ======
 #include <iostream>
 class A {
