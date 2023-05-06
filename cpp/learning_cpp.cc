@@ -1,16 +1,25 @@
 //====== 499 ======
 // throw without exception type will just terminate.
+// uncaught exception also terminates, so the destructor will not be called
 #include <iostream>
 
 #define FIVE_EQUAL "====="
 
+class M {
+    public:
+        M() { std::cout << "ctr\n"; }
+        ~M() { std::cout << "dtr\n"; }
+};
+
 int main() {
+    M m;
     try {
-         throw std::runtime_error("xx");;
+        throw std::runtime_error("xx");;
         //throw;
     } catch (...) {
         std::cout << "exception caught\n";
     }
+    throw std::runtime_error("uncaught exception");;
     int a;
     int *p_a = &a;
     std::cout << &a << " " << p_a << "\n";
