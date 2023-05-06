@@ -1,3 +1,18 @@
+//====== 499 ======
+// throw without exception type will just terminate.
+#include <iostream>
+
+int main() {
+    try {
+        // throw std::runtime_error("xx");;
+        throw;
+    } catch (...) {
+        std::cout << "exception caught\n";
+    }
+}
+
+
+/*
 //====== 498 ======
 // in the constructor, if the argument name is the same as the data member
 // name, we can initialize it in the initializer list
@@ -23,8 +38,6 @@ int main() {
 }
 
 
-
-/*
 //====== 497 ======
 // std::tie creats a lvalue reference and std::pair is a struct which can
 // have lvalue reference, the same goes to std::tuple
@@ -69,6 +82,7 @@ int main() {
     std::cout << it->first << " " << it->second << "\n";
 }
 
+
 //====== 495 ======
 // initialize uniform_int_distribution in the initializer list
 #include <random>
@@ -76,7 +90,7 @@ int main() {
 
 class RandomNumber {
     public:
-        RandomNumber(int a, int b): uni_dist(a, b) {
+        RandomNumber(int a, int b): uni_dist(0, 24442306559) {
             std::random_device rd;
             eng.seed(rd());
             //eng.seed(3);
@@ -85,8 +99,8 @@ class RandomNumber {
             return uni_dist(eng);
         }
     private:
-        std::mt19937 eng;
-        std::uniform_int_distribution<int> uni_dist;
+        std::mt19937_64 eng;
+        std::uniform_int_distribution<size_t> uni_dist;
 };
 
 
