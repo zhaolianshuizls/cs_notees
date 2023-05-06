@@ -1,3 +1,28 @@
+//====== 497 ======
+// std::tie creats a lvalue reference and std::pair is a struct which can
+// have lvalue reference, the same goes to std::tuple
+#include <functional>
+#include <utility>
+#include <iostream>
+
+int main() {
+    int a = 22, b = 2;
+    std::pair<int&, int> p = std::make_pair(std::ref(a), b);
+    std::cout << p.first << " " << p.second << "\n";
+    a = 33;
+    b = 44;
+    std::cout << p.first << " " << p.second << "\n";
+    int c, d;
+    std::pair<int&, int&> pp(c, d);
+    p.first = -1;
+    p.second = -2;
+    pp = p;
+    std::cout << a << " " << b << "\n";
+    std::cout << c << " " << d << "\n";
+}
+
+
+/*
 //====== 496 ======
 #include <list>
 #include <iostream>
@@ -19,7 +44,6 @@ int main() {
 }
 
 
-/*
 //====== 495 ======
 #include <random>
 #include <iostream>
