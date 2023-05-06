@@ -2,13 +2,22 @@
 // throw without exception type will just terminate.
 #include <iostream>
 
+#define FIVE_EQUAL "====="
+
 int main() {
     try {
-        // throw std::runtime_error("xx");;
-        throw;
+         throw std::runtime_error("xx");;
+        //throw;
     } catch (...) {
         std::cout << "exception caught\n";
     }
+    int a;
+    int *p_a = &a;
+    std::cout << &a << " " << p_a << "\n";
+    size_t b = *(reinterpret_cast<size_t *>(&p_a));
+    std::cout << "0x" << std::hex << b << "\n";
+    std::cout << b / 2 << "\n";
+    std::cout << std::dec << 0x30181f000000000 << "\n";
 }
 
 
