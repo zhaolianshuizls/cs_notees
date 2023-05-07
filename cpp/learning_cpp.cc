@@ -1,3 +1,19 @@
+//====== 500 ======
+// exit() will return the code to os
+// int main() returns a code to the function which invokes main(), the code is subsequently passed to exit
+#include <stdlib.h>
+void test() {
+    exit(111);
+}
+
+int main() {
+    test();
+
+    return 0;
+}
+
+
+/*
 //====== 499 ======
 // throw without exception type will just terminate.
 // uncaught exception also terminates, so the destructor will not be called
@@ -11,6 +27,8 @@ class M {
         ~M() { std::cout << "dtr\n"; }
 };
 
+M mm;
+
 int main() {
     M m;
     try {
@@ -20,6 +38,7 @@ int main() {
         std::cout << "exception caught\n";
     }
     throw std::runtime_error("uncaught exception");;
+    //exit(0);
     int a;
     int *p_a = &a;
     std::cout << &a << " " << p_a << "\n";
@@ -30,7 +49,6 @@ int main() {
 }
 
 
-/*
 //====== 498 ======
 // in the constructor, if the argument name is the same as the data member
 // name, we can initialize it in the initializer list
