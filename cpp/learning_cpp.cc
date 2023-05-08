@@ -1,3 +1,15 @@
+//====== 504 ======
+// test comparison of sequence container
+#include <list>
+#include <iostream>
+
+int main() {
+    std::list<int> a {1, 2, 3}, b{1, 2};
+    std::cout << (a == b) << "\n";
+}
+
+
+/*
 //====== 503 ======
 // specify the result of a function be used
 int a() __attribute__((warn_unused_result));
@@ -11,7 +23,6 @@ int main() {
 }
 
 
-/*
 //====== 502 ======
 #include <iostream>
 
