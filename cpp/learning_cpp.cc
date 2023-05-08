@@ -1,3 +1,17 @@
+//====== 502 ======
+#include <iostream>
+
+#define TO_STR(x) #x
+#define MACRO_EXPAND(x) TO_STR(x)
+
+#define A (float, doule)
+
+int main() {
+    std::cout << MACRO_EXPAND(A) << "\n";    
+}
+
+
+/*
 //====== 501 ======
 // even if exit before main(), the destructor is still called
 #include <stdlib.h>
@@ -30,7 +44,6 @@ int main() {
 }
 
 
-/*
 //====== 500 ======
 // exit() will return the code to os
 // int main() returns a code to the function which invokes main(), the code is subsequently passed to exit
