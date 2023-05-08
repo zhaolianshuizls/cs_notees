@@ -12,7 +12,12 @@ class M {
             std::cout << "~M dtr\n";
         }
         int test() {
-            exit(EXIT_FAILURE);
+            //exit(EXIT_FAILURE);  // $? is 1
+            try {
+                throw 2;
+            } catch(...) { 
+                std::cout << "caught\n";
+            }
             return 3;
         }
 };
