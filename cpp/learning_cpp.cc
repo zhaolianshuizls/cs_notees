@@ -1,3 +1,53 @@
+//====== 506 ======
+#include <iostream>
+namespace XX {
+
+namespace X {
+
+// specialization of P_T has to either be in the same scope X or in a scope which enclosing X
+template<typename T>
+class P_T {
+    public:
+        P_T() { std::cout << "default\n"; }
+};
+
+template<>
+class P_T<int> {
+};
+
+void whichFloat() {
+    // P_T<float> a;  // can not instantiate it as it's specialized after this position
+}
+
+}  // namespace X
+
+template<>
+class X::P_T<float> {
+    public:
+        P_T() { std::cout << "float specialization\n"; }
+
+};
+
+}  // namespace XX
+
+namespace Y {
+
+//template<>
+//class X::P_T<int> {
+template <typename T>
+class P_T: public XX::X::P_T<T> {
+
+};
+
+}
+
+int main() {
+    XX::X::P_T<float> a;
+    XX::X::whichFloat();
+}
+
+
+/*
 //====== 505 ======
 // template specialization for std::hash
 #include <functional>
@@ -29,8 +79,6 @@ int main() {
 }
 
 
-
-/*
 //====== 504 ======
 // test comparison of sequence container
 #include <list>
