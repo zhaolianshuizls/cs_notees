@@ -1,12 +1,22 @@
 //====== 500 ======
 // exit() will return the code to os
 // int main() returns a code to the function which invokes main(), the code is subsequently passed to exit
+// exit code can be accessed by $? in a unix-shell
+// the order of functions being executed at exit is the reverse of them
+// being added to atexit
+#include <iostream>
 #include <stdlib.h>
 void test() {
+    std::cout << "before exit\n";
     exit(111);
 }
 
 int main() {
+
+    atexit([]() { std::cout << "atexit 1\n"; });
+    atexit([]() { std::cout << "atexit 2\n"; });
+    std::cout << "done setting atexit\n";
+
     test();
 
     return 0;
