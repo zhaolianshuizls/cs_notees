@@ -1,3 +1,31 @@
+//====== 501 ======
+// even if exit before main(), the destructor is still called
+#include <stdlib.h>
+#include <iostream>
+
+class M {
+    public:
+        M() {
+            std::cout << "M ctr\n";
+        }
+        ~M() {
+            std::cout << "~M dtr\n";
+        }
+        int test() {
+            exit(EXIT_FAILURE);
+            return 3;
+        }
+};
+
+M m;
+int dummy = m.test();
+
+int main() {
+    std::cout << "dummy " << dummy << "\n";
+}
+
+
+/*
 //====== 500 ======
 // exit() will return the code to os
 // int main() returns a code to the function which invokes main(), the code is subsequently passed to exit
@@ -23,7 +51,6 @@ int main() {
 }
 
 
-/*
 //====== 499 ======
 // throw without exception type will just terminate.
 // uncaught exception also terminates, so the destructor will not be called
