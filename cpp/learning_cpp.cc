@@ -1,3 +1,17 @@
+//====== 503 ======
+// specify the result of a function be used
+int a() __attribute__((warn_unused_result));
+
+int a() {
+    return 2;
+}
+
+int main() {
+    a();
+}
+
+
+/*
 //====== 502 ======
 #include <iostream>
 
@@ -11,7 +25,6 @@ int main() {
 }
 
 
-/*
 //====== 501 ======
 // even if exit before main(), the destructor is still called
 #include <stdlib.h>
