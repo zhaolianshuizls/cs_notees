@@ -1,3 +1,36 @@
+//====== 505 ======
+// template specialization for std::hash
+#include <functional>
+#include <string>
+#include <vector>
+#include <iostream>
+
+template<>
+class std::hash<std::vector<int>> {
+    public:
+        size_t operator()(const std::vector<int> &v) {
+            std::string s = "";
+            for (auto &i : v) {
+                s += (std::to_string(i) + ",");
+            }
+            return std::hash<std::string>()(s);
+        }
+};
+
+int main() {
+    std::vector<int> a {1, 2, 3};
+    std::string s = "";
+    for (auto & i : a) {
+        s += (std::to_string(i) + ",");
+    }
+    std::hash<std::string> hash_str;
+    std::cout << hash_str(s)<< "\n";
+    std::cout << std::hash<std::vector<int>>{}(a) << "\n";
+}
+
+
+
+/*
 //====== 504 ======
 // test comparison of sequence container
 #include <list>
@@ -9,7 +42,6 @@ int main() {
 }
 
 
-/*
 //====== 503 ======
 // specify the result of a function be used
 int a() __attribute__((warn_unused_result));
