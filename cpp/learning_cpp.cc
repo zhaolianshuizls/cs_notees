@@ -1,3 +1,99 @@
+//====== 510 ======
+// remove the last element of a string
+#include <string>
+#include <iostream>
+
+int main() {
+    std::string s = "sdss,";
+    std::cout << s << "\n";
+    s.pop_back();
+    std::cout << s << "\n";
+}
+
+
+/*
+//====== 509 ======
+#include <chrono>
+#include <iostream>
+
+int main() {
+    int arr[80000];
+    using namespace std::chrono;
+    high_resolution_clock::time_point t1 = high_resolution_clock::now();
+    for (int i = 0; i < 80000; ++i) {
+        arr[i] = i*i*i;
+    }
+    high_resolution_clock::time_point t2 = high_resolution_clock::now();
+    duration<double> dur = duration_cast<duration<double>>(t2 - t1);
+    printf("%f\n", dur.count());
+}
+
+
+//====== 508 ======
+#include <numeric>
+#include <iostream>
+#include <vector>
+
+class P {
+    protected:
+        std::vector<int> num{};
+    protected:
+        virtual void setNum() {   // without virtual, always P's
+            std::cout << "P setNum\n";
+        }
+    public:
+        void test() {
+            setNum();
+        }
+};
+
+class C: public P {
+    public:
+        void setNum() {
+            num = {1, 2, 3};
+            std::cout << "C setNum\n";
+            auto f = [](int init, int ele) {
+                return init + ele * ele;
+            };
+            std::cout << std::accumulate(num.begin(), num.end(), 0, f) << "\n";
+        }
+};
+
+int main() {
+    C c;
+    P *p = &c;
+    p->test();
+    p = static_cast<P *>(&c);
+    p->test();
+
+    char *x;
+    size_t x_val = 0x111;
+    *(reinterpret_cast<size_t *>(&x)) = x_val;
+    printf("%p\n", x);
+    // int &aaa = NULL;  // can not be null
+}
+
+
+//====== 507 ======
+#include <iostream>
+#include <sstream>
+
+inline int t();
+inline int t() {
+    return 2;
+}
+
+int main() {
+    int a = 3;
+    const std::string b = "sdssss";
+    std::ostringstream oss;
+    oss << "bbb " "xxx";
+    // std::cout << "sd " b "\n";  // can not have variable here
+    int aa = t() + t();
+    std::cout << aa << "\n";
+}
+
+
 //====== 506 ======
 #include <iostream>
 namespace XX {
@@ -47,7 +143,6 @@ int main() {
 }
 
 
-/*
 //====== 505 ======
 // template specialization for std::hash
 #include <functional>
