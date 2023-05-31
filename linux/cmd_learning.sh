@@ -1,3 +1,9 @@
+#======= 185 =======
+# delete columns 1-8 in vim
+:%!colrm 1 8
+# delete columns 1-8 from current line to the last 3rd line
+:.,$-2!colrm 1 8
+
 #======= 184 =======
 # figure out if one branch is forked from another one in git
 git merge-base --fork-point base_branch sub_branch  # returns a commit id hwere sub_branch forks from base_branch
