@@ -1,3 +1,7 @@
+#======= 186 =======
+git fetch --tags --all  # update all tags
+git checkout tags/v1.11.0 -b v1.11.0.name  # create a branch from a tag
+
 #======= 185 =======
 # delete columns 1-8 in vim
 :%!colrm 1 8
