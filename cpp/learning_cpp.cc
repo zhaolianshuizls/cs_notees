@@ -1,3 +1,61 @@
+//====== 512 ======
+// atomic does not support copy constructor
+#include <atomic>
+#include <iostream>
+
+int main() {
+    std::atomic_bool a(true);
+    //std::atomic_bool a = true;
+    std::cout << a << "\n";
+}
+
+
+/*
+//====== 511 ======
+// unordered_set find
+#include <iostream>
+#include <unordered_set>
+
+#define A 23
+#define F() \
+    A
+
+void func(float * &p) {
+
+}
+
+int main() {
+    std::unordered_set<int> s = {2, 3, 2};
+    std::cout << s.size() << "\n";
+    auto it = s.find(2);
+    if (it != s.end())
+        std::cout << "found\n";
+
+    std::string ss;
+    ss.pop_back();
+    std::cout << (ss == "") << "\n";
+    //std::hash<std::string>{}(ss);
+    //std::cout << "sds:" <<ss <<".";
+
+    float f;
+    float *p = &f;
+    func(p);
+
+    size_t addrs[2] = {0x30080e5474d4000, 0x30080481ea60000};
+    size_t *f_a;
+    *((size_t *)(&f_a)) = addrs[0];
+    std::cout << std::hex<< addrs[0] << " " << addrs[1] << "\n";
+    std::cout << addrs[0] << " " << addrs[1] << "\n";
+    std::cout << addrs[0] % (8*1024) << " " << addrs[1] % (8*1024) << "\n";
+    std::cout << addrs[0] % (64*1024) << " " << addrs[1] % (64*1024) << "\n";
+
+    std::cout << f_a << "\n";
+    size_t aa = 10;
+    void *fff = (void *)aa;
+    std::cout << fff << " " << std::dec << *(size_t *)(&fff)<< "\n";
+}
+
+
 //====== 510 ======
 // remove the last element of a string
 #include <string>
@@ -11,7 +69,6 @@ int main() {
 }
 
 
-/*
 //====== 509 ======
 #include <chrono>
 #include <iostream>
