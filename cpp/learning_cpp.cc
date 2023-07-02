@@ -1,3 +1,31 @@
+//====== 513 ======
+// The actual objects are released after destructor is called.
+#include <iostream>
+
+class S1 {
+    public:
+        ~S1() {
+            std::cout << "S1 dstr\n";
+        }
+};
+
+class S2 {
+    public:
+        ~S2() {
+            std::cout << "S2 dstr\n";
+        }
+    private:
+        S1 s1;
+
+
+};
+
+int main() {
+    S2 s2;
+}
+
+
+/*
 //====== 512 ======
 // atomic does not support copy constructor
 #include <atomic>
@@ -10,7 +38,6 @@ int main() {
 }
 
 
-/*
 //====== 511 ======
 // unordered_set find
 #include <iostream>
