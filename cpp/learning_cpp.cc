@@ -1,3 +1,40 @@
+//====== 514 ======
+// ofstream write to different files
+#include <iostream>
+#include <fstream>
+
+int main () {
+    std::ofstream out;
+    out.open("a.txt", std::ios::app);
+    out << "1\n";
+    out.close();
+    out.open("b.txt", std::ios::app);
+    out << "2\n";
+    out.close();
+}
+
+
+/*
+//====== 513 ======
+#include <tuple>
+#include <iostream>
+
+struct v {
+    int x;
+    int y;
+    v() = default;
+    v (int a, int b): x(a), y(b) {}
+};
+
+int main () {
+    v val(2,3), copy;
+    float c, d = 3.14;
+    std::tie(c, copy) = std::make_tuple(d, val);
+    std::cout << copy.x << copy.y << "\n";
+    std::cout << c << "\n";
+}
+
+
 //====== 512 ======
 // atomic does not support copy constructor
 #include <atomic>
@@ -10,7 +47,6 @@ int main() {
 }
 
 
-/*
 //====== 511 ======
 // unordered_set find
 #include <iostream>
