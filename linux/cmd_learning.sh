@@ -1,3 +1,8 @@
+#======= 188 =======
+# accidentally git commit --amend, how to undo it
+git reset --soft HEAD@{1}
+git commit -m "xxx"
+
 #======= 187 =======
 # get unique lines in a file a.txt
 sort a.txt | uniq -c
