@@ -1,3 +1,37 @@
+//====== 515 ======
+// how to move through the file?
+// std::ios::beg/cur/end, seekg/tellg, seekp/tellp
+#include <fstream>
+#include <string>
+#include <iostream>
+
+int main() {
+    std::string file_name = "test.txt";
+    std::ofstream output(file_name);
+    output << "THISisline0.\n";
+    output << "\n";
+    output << "THISisline0.\n";
+    output.seekp(-5, std::ios::cur);
+    output << "NE";
+    output.close();
+
+    std::ifstream input(file_name);
+    input.seekg(-1, std::ios::end);
+    std::cout << (char)input.get() << "|\n";
+    input.seekg(0, std::ios::end);
+    auto pos_end = input.tellg();
+    std::cout << "total chars " << pos_end << "\n";
+    input.seekg(6);
+    char txt[256];
+    input.get(txt,6);
+    std::cout << txt << "|\n";
+    input.seekg(6);
+    input.getline(txt,256);
+    std::cout << txt << "|\n";
+}
+
+
+/*
 //====== 514 ======
 // ofstream write to different files
 #include <iostream>
@@ -14,7 +48,6 @@ int main () {
 }
 
 
-/*
 //====== 513 ======
 #include <tuple>
 #include <iostream>
