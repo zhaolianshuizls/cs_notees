@@ -1,9 +1,88 @@
+//====== 516 ======
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
+class Me {
+    public:
+        int dsy = 23;
+        void test() {
+            int dsy = 46;
+            auto xxxx = [this, dsy] {
+                // try to find without this first
+                std::cout << dsy << "\n";
+                std::cout << this->dsy << "\n";
+            };
+            xxxx();
+        }
+};
+
+int main () {
+    std::fstream file("test.txt");
+    std::string line;
+    while (std::getline(file, line)) {
+        auto pos = file.tellg();
+        std::cout << "pos " << pos << "\n";
+        std::cout << line << "\n";
+    }
+    auto pos = file.tellg();
+    std::cout << "pos " << pos << "\n";
+    file.seekg(0, std::ios::beg);
+    pos = file.tellg();
+    std::cout << "pos " << pos << "\n";
+    file.clear();
+    file.seekp(0, std::ios::beg);
+    pos = file.tellp();
+    std::cout << "pos " << pos << "\n";
+    file << "abc\n";
+    std::cout << (char)file.get() << (char)file.get() << "\n";
+    std::getline(file, line);
+    std::cout << line << "\n";
+    file.seekp(-(line.size() + 1), std::ios::cur);
+    file.put('X');
+
+    std::fstream zls("zls.txt");
+    while(std::getline(zls, line)) {
+    }
+    zls.clear();
+    std::cout << zls.tellp() << "\n";
+    zls << "goes to the end\n";
+
+    std::istringstream iss("I love you .");
+    std::string word;
+    while (iss >> word) {
+        std::cout << word << "\n";
+
+    }
+    zls.clear();
+    zls.seekg(0, std::ios::beg);
+    std::cout << "=================\n";
+    while (zls >> word) {
+        std::cout << word << "\n";
+    }
+
+    std::stringstream ss;
+    //ss << "2a3b4c5d6";
+    ss << "2 3 4 5 6";
+    int a;
+    while (ss >> a) {
+        std::cout << a << '\n';
+    }
+
+    Me me;
+    me.test();
+}
+
+
+
+/*
 //====== 515 ======
 // how to move through the file?
 // std::ios::beg/cur/end, seekg/tellg, seekp/tellp
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <algorithm>
 
 int main() {
     std::string file_name = "test.txt";
@@ -11,8 +90,8 @@ int main() {
     output << "THISisline0.\n";
     output << "\n";
     output << "THISisline0.\n";
-    output.seekp(-5, std::ios::cur);
-    output << "NE";
+    output.seekp(-14, std::ios::cur);
+    output << "xx\n";
     output.close();
 
     std::ifstream input(file_name);
@@ -28,10 +107,18 @@ int main() {
     input.seekg(6);
     input.getline(txt,256);
     std::cout << txt << "|\n";
+
+    std::string zls = "1 2 3 4 5 |";
+    std::string temp("");
+    std::for_each(zls.begin(), zls.end(), [&temp](const char &c){ if (c != ' ') temp += c;});
+    std::cout << temp << "\n";
+
+    std::string zls_s = "xx";
+    zls_s += 'y';
+    std::cout << zls_s << '\n';
 }
 
 
-/*
 //====== 514 ======
 // ofstream write to different files
 #include <iostream>
