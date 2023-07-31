@@ -1,3 +1,44 @@
+//====== 517 ======
+// class template partial specialization, using, typename, decltype
+#include <iostream>
+
+template <typename T>
+struct refVar {
+    using type = T;
+    void getType() {
+        std::cout << "T t\n";
+    }
+};
+
+template <typename T>
+struct refVar<T &> {
+    using type = T;
+    void getType() {
+        std::cout << "T &t\n";
+    }
+};
+
+template <typename T>
+struct refVar<T &&> {
+    using type = T;
+    void getType() {
+        std::cout << "T &&t\n";
+    }
+};
+
+template <typename T>
+using refVarType = typename refVar<T>::type;
+
+int main() {
+    int i = 3;
+    refVar<decltype(i)>().getType();
+    refVar<decltype((i))>().getType();  // has to in wrapped by (i) to get lvalue
+    refVar<decltype(std::move(i))>().getType();
+}
+
+
+
+/*
 //====== 516 ======
 #include <iostream>
 #include <fstream>
@@ -75,7 +116,6 @@ int main () {
 
 
 
-/*
 //====== 515 ======
 // how to move through the file?
 // std::ios::beg/cur/end, seekg/tellg, seekp/tellp
