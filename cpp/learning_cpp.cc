@@ -1,3 +1,18 @@
+//====== 518 ======
+#include <iostream>
+
+int main() {
+    if (true)
+        do {
+            std::cout << "one statement\n";
+            std::cout << "one statement\n";
+        } while(0);
+    else
+        std::cout << "else\n";
+}
+
+
+/*
 //====== 517 ======
 // class template partial specialization, using, typename, decltype
 #include <iostream>
@@ -37,8 +52,6 @@ int main() {
 }
 
 
-
-/*
 //====== 516 ======
 #include <iostream>
 #include <fstream>
