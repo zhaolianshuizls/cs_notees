@@ -1,3 +1,62 @@
+//====== 520 ======
+#include <type_traits>
+#include <iostream>
+
+// the thrid param is used for SFINAE, it should have a default value so that we don't have to provide a value when used
+template<int a, int b, typename std::enable_if<a < b, bool>::type dummy = true>
+void zls() {
+    std::cout << "a<b\n";
+}
+
+template<int a, int b, typename std::enable_if<a >= b, bool>::type dummy = false>
+void zls() {
+    std::cout << "a>=b\n";
+}
+
+int main() {
+    const int a = 2, b = -3;
+    zls<a, b>();
+}
+
+
+/*
+//====== 519 ======
+#include <iostream>
+
+template <bool a>
+struct xyz {
+
+};
+
+template <int length>
+void zls(int (&a)[length]) {
+    std::cout << "zls\n";
+}
+
+void t(void *&x, int &xx) {
+    int a;
+    x = &a;
+    std::cout << &a << "\n";
+    xx = 9;
+}
+
+int main() {
+    int a[4];
+    zls(a);
+
+    uint32_t b = -1;
+    std::cout << b << "\n";
+    b+=1;
+    std::cout << b << "\n";
+
+    float *x;
+    int xx = 10;
+    t((void *&)x, (int &)xx);
+    std::cout << x << "\n";
+    std::cout << xx << "\n";
+}
+
+
 //====== 518 ======
 #include <iostream>
 
@@ -12,7 +71,6 @@ int main() {
 }
 
 
-/*
 //====== 517 ======
 // class template partial specialization, using, typename, decltype
 #include <iostream>
