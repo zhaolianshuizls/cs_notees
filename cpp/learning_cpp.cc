@@ -26,6 +26,274 @@ int main() {
 
 
 /*
+=======
+//====== 520 ======
+#include <type_traits>
+#include <iostream>
+
+// the thrid param is used for SFINAE, it should have a default value so that we don't have to provide a value when used
+template<int a, int b, typename std::enable_if<a < b, bool>::type dummy = true>
+void zls() {
+    std::cout << "a<b\n";
+}
+
+template<int a, int b, typename std::enable_if<a >= b, bool>::type dummy = false>
+void zls() {
+    std::cout << "a>=b\n";
+}
+
+int main() {
+    const int a = 2, b = -3;
+    zls<a, b>();
+}
+
+
+//====== 519 ======
+#include <iostream>
+
+template <bool a>
+struct xyz {
+
+};
+
+template <int length>
+void zls(int (&a)[length]) {
+    std::cout << "zls\n";
+}
+
+void t(void *&x, int &xx) {
+    int a;
+    x = &a;
+    std::cout << &a << "\n";
+    xx = 9;
+}
+
+int main() {
+    int a[4];
+    zls(a);
+
+    uint32_t b = -1;
+    std::cout << b << "\n";
+    b+=1;
+    std::cout << b << "\n";
+
+    float *x;
+    int xx = 10;
+    t((void *&)x, (int &)xx);
+    std::cout << x << "\n";
+    std::cout << xx << "\n";
+}
+
+
+//====== 518 ======
+#include <iostream>
+
+int main() {
+    if (true)
+        do {
+            std::cout << "one statement\n";
+            std::cout << "one statement\n";
+        } while(0);
+    else
+        std::cout << "else\n";
+}
+
+
+//====== 517 ======
+// class template partial specialization, using, typename, decltype
+#include <iostream>
+
+template <typename T>
+struct refVar {
+    using type = T;
+    void getType() {
+        std::cout << "T t\n";
+    }
+};
+
+template <typename T>
+struct refVar<T &> {
+    using type = T;
+    void getType() {
+        std::cout << "T &t\n";
+    }
+};
+
+template <typename T>
+struct refVar<T &&> {
+    using type = T;
+    void getType() {
+        std::cout << "T &&t\n";
+    }
+};
+
+template <typename T>
+using refVarType = typename refVar<T>::type;
+
+int main() {
+    int i = 3;
+    refVar<decltype(i)>().getType();
+    refVar<decltype((i))>().getType();  // has to in wrapped by (i) to get lvalue
+    refVar<decltype(std::move(i))>().getType();
+}
+
+
+//====== 516 ======
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
+class Me {
+    public:
+        int dsy = 23;
+        void test() {
+            int dsy = 46;
+            auto xxxx = [this, dsy] {
+                // try to find without this first
+                std::cout << dsy << "\n";
+                std::cout << this->dsy << "\n";
+            };
+            xxxx();
+        }
+};
+
+int main () {
+    std::fstream file("test.txt");
+    std::string line;
+    while (std::getline(file, line)) {
+        auto pos = file.tellg();
+        std::cout << "pos " << pos << "\n";
+        std::cout << line << "\n";
+    }
+    auto pos = file.tellg();
+    std::cout << "pos " << pos << "\n";
+    file.seekg(0, std::ios::beg);
+    pos = file.tellg();
+    std::cout << "pos " << pos << "\n";
+    file.clear();
+    file.seekp(0, std::ios::beg);
+    pos = file.tellp();
+    std::cout << "pos " << pos << "\n";
+    file << "abc\n";
+    std::cout << (char)file.get() << (char)file.get() << "\n";
+    std::getline(file, line);
+    std::cout << line << "\n";
+    file.seekp(-(line.size() + 1), std::ios::cur);
+    file.put('X');
+
+    std::fstream zls("zls.txt");
+    while(std::getline(zls, line)) {
+    }
+    zls.clear();
+    std::cout << zls.tellp() << "\n";
+    zls << "goes to the end\n";
+
+    std::istringstream iss("I love you .");
+    std::string word;
+    while (iss >> word) {
+        std::cout << word << "\n";
+
+    }
+    zls.clear();
+    zls.seekg(0, std::ios::beg);
+    std::cout << "=================\n";
+    while (zls >> word) {
+        std::cout << word << "\n";
+    }
+
+    std::stringstream ss;
+    //ss << "2a3b4c5d6";
+    ss << "2 3 4 5 6";
+    int a;
+    while (ss >> a) {
+        std::cout << a << '\n';
+    }
+
+    Me me;
+    me.test();
+}
+
+
+
+//====== 515 ======
+// how to move through the file?
+// std::ios::beg/cur/end, seekg/tellg, seekp/tellp
+#include <fstream>
+#include <string>
+#include <iostream>
+#include <algorithm>
+
+int main() {
+    std::string file_name = "test.txt";
+    std::ofstream output(file_name);
+    output << "THISisline0.\n";
+    output << "\n";
+    output << "THISisline0.\n";
+    output.seekp(-14, std::ios::cur);
+    output << "xx\n";
+    output.close();
+
+    std::ifstream input(file_name);
+    input.seekg(-1, std::ios::end);
+    std::cout << (char)input.get() << "|\n";
+    input.seekg(0, std::ios::end);
+    auto pos_end = input.tellg();
+    std::cout << "total chars " << pos_end << "\n";
+    input.seekg(6);
+    char txt[256];
+    input.get(txt,6);
+    std::cout << txt << "|\n";
+    input.seekg(6);
+    input.getline(txt,256);
+    std::cout << txt << "|\n";
+
+    std::string zls = "1 2 3 4 5 |";
+    std::string temp("");
+    std::for_each(zls.begin(), zls.end(), [&temp](const char &c){ if (c != ' ') temp += c;});
+    std::cout << temp << "\n";
+
+    std::string zls_s = "xx";
+    zls_s += 'y';
+    std::cout << zls_s << '\n';
+}
+
+
+//====== 514 ======
+// ofstream write to different files
+#include <iostream>
+#include <fstream>
+
+int main () {
+    std::ofstream out;
+    out.open("a.txt", std::ios::app);
+    out << "1\n";
+    out.close();
+    out.open("b.txt", std::ios::app);
+    out << "2\n";
+    out.close();
+}
+
+
+//====== 513 ======
+#include <tuple>
+#include <iostream>
+
+struct v {
+    int x;
+    int y;
+    v() = default;
+    v (int a, int b): x(a), y(b) {}
+};
+
+int main () {
+    v val(2,3), copy;
+    float c, d = 3.14;
+    std::tie(c, copy) = std::make_tuple(d, val);
+    std::cout << copy.x << copy.y << "\n";
+    std::cout << c << "\n";
+}
+
+
 //====== 512 ======
 // atomic does not support copy constructor
 #include <atomic>

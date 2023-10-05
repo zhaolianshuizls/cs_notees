@@ -1,3 +1,12 @@
+#======= 188 =======
+# accidentally git commit --amend, how to undo it
+git reset --soft HEAD@{1}
+git commit -m "xxx"
+
+#======= 187 =======
+# get unique lines in a file a.txt
+sort a.txt | uniq -c
+
 #======= 186 =======
 git fetch --tags --all  # update all tags
 git checkout tags/v1.11.0 -b v1.11.0.name  # create a branch from a tag
