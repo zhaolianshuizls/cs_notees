@@ -1,0 +1,13 @@
+cmake_minimum_required(VERSION 3.10.2)
+
+project("create and install so lib")
+
+file(GLOB_RECURSE ALL_SO_SRC_FILES ./src/*.cpp)
+file(GLOB_RECURSE ALL_SO_HEADER_FILES ./head/*.h)
+message("ALL_SO_SRC_FILES: ${ALL_SO_SRC_FILES}")
+message("ALL_SO_HEADER_FILES: ${ALL_SO_HEADER_FILES}")
+add_library(ZLS_SUB_SO SHARED ${ALL_SO_SRC_FILES})
+include_directories(head/)
+set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/../install_so/)
+install(TARGETS ZLS_SUB_SO DESTINATION ./)
+install(FILES ${ALL_SO_HEADER_FILES} DESTINATION ./include)

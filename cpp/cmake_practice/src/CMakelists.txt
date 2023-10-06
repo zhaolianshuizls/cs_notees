@@ -1,0 +1,14 @@
+cmake_minimum_required(VERSION 3.10.2)
+project("cpp_entry")
+
+file(GLOB_RECURSE ALL_SRC_CPP ./*.cpp)
+set(ALL_SRC_HEADER_DIR ${PROJECT_SOURCE_DIR}/../head/ ${PROJECT_SOURCE_DIR}/../install_so/include)
+include_directories(${ALL_SRC_HEADER_DIR})
+set(EXEC_NAME ${PROJECT_NAME}_main)
+set(SO_DIR ${PROJECT_SOURCE_DIR}/../install_so/)
+link_directories(${SO_DIR})  # has to be before add_executable
+add_executable(${EXEC_NAME} ${ALL_SRC_CPP})
+target_link_libraries(${EXEC_NAME} ZLS_SUB_SO)
+
+set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/../install_exec/)
+install(TARGETS ${EXEC_NAME} DESTINATION ./)
