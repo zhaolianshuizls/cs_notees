@@ -1,3 +1,20 @@
+//====== 515 ======
+#include <iostream>
+
+int main() {
+    int a = 3;
+    if ((a & 1) == 1) {
+        std::cout << "a is odd\n";
+    }
+
+    int b = 1024;
+    if ((b & 1) == 0) {
+        std::cout << "b is even\n";
+    }
+}
+
+
+/*
 //====== 514 ======
 #include <iostream>
 
@@ -16,7 +33,6 @@ int main() {
 }
 
 
-/*
 //====== 513 ======
 // The actual objects are released after destructor is called.
 #include <iostream>
