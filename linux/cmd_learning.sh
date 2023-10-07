@@ -1,3 +1,11 @@
+#======= 189 =======
+# in vim, past ahead the current the position
+ap
+# in vim, delete everything inside a parenthesis
+di(
+di[
+di{
+
 #======= 188 =======
 # accidentally git commit --amend, how to undo it
 git reset --soft HEAD@{1}
