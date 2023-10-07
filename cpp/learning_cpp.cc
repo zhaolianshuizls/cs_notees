@@ -1,3 +1,22 @@
+//====== 514 ======
+#include <iostream>
+
+template<int a, int b>
+void xxx() {
+    std::cout << "<a, b>\n";
+}
+
+template<int a>
+void xxx() {
+    xxx<a, 2>();
+}
+
+int main() {
+    xxx<0>();
+}
+
+
+/*
 //====== 513 ======
 // The actual objects are released after destructor is called.
 #include <iostream>
@@ -25,8 +44,6 @@ int main() {
 }
 
 
-/*
-=======
 //====== 520 ======
 #include <type_traits>
 #include <iostream>
