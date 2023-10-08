@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.10.2)
 project("cpp_entry")
+# only levels no lower than DEBUG can be printed by message, lower levels will be muted
+#set(CMAKE_MESSAGE_LOG_LEVEL DEBUG)  # will be overridden by the command line --log-level
 
 file(GLOB_RECURSE ALL_SRC_CPP ./*.cpp)
 set(ALL_SRC_HEADER_DIR ${PROJECT_SOURCE_DIR}/../head/ ${PROJECT_SOURCE_DIR}/../install_so/include)
@@ -17,3 +19,8 @@ target_link_libraries(${EXEC_NAME} ZLS_SUB_SO)
 
 set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/../install_exec/)
 install(TARGETS ${EXEC_NAME} DESTINATION ./)
+
+message(STATUS "[STATUS] END")    # higher than VERBOSE
+message(VERBOSE "[VERBOSE] ...")  # higher than DEBUG
+message(DEBUG "[DEBUG] ...")  # higher than TRACE
+message(TRACE "[TRACE] ...")  # lowest level
