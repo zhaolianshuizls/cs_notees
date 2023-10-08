@@ -3,11 +3,16 @@ project("cpp_entry")
 
 file(GLOB_RECURSE ALL_SRC_CPP ./*.cpp)
 set(ALL_SRC_HEADER_DIR ${PROJECT_SOURCE_DIR}/../head/ ${PROJECT_SOURCE_DIR}/../install_so/include)
-include_directories(${ALL_SRC_HEADER_DIR})
 set(EXEC_NAME ${PROJECT_NAME}_main)
 set(SO_DIR ${PROJECT_SOURCE_DIR}/../install_so/)
 link_directories(${SO_DIR})  # has to be before add_executable
+message("========== before add_executable")
+message("PROJECT_SOURCE_DIR: ${PROJECT_SOURCE_DIR}")
+message("CMAKE_SOURCE_DIR: ${CMAKE_SOURCE_DIR}")
 add_executable(${EXEC_NAME} ${ALL_SRC_CPP})
+message("========== after add_executable")
+#target_* has to be after the target build
+target_include_directories(${EXEC_NAME} PRIVATE ${ALL_SRC_HEADER_DIR})
 target_link_libraries(${EXEC_NAME} ZLS_SUB_SO)
 
 set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/../install_exec/)

@@ -1,3 +1,4 @@
+#set -e
 shopt -s extglob
 cmake ../src && make && make install && rm -rf -- !(compile_install_exec.sh)
 
