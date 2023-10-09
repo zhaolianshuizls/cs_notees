@@ -3,7 +3,7 @@ project("cpp_entry")
 # only levels no lower than DEBUG can be printed by message, lower levels will be muted
 #set(CMAKE_MESSAGE_LOG_LEVEL DEBUG)  # will be overridden by the command line --log-level
 
-file(GLOB_RECURSE ALL_SRC_CPP ./*.cpp)
+file(GLOB_RECURSE ALL_SRC_CPP CONFIGURE_DEPENDS ./*.cpp)
 set(ALL_SRC_HEADER_DIR ${PROJECT_SOURCE_DIR}/../head/ ${PROJECT_SOURCE_DIR}/../install_so/include)
 set(EXEC_NAME ${PROJECT_NAME}_main)
 set(SO_DIR ${PROJECT_SOURCE_DIR}/../install_so/)
