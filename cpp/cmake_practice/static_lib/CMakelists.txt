@@ -1,0 +1,2 @@
+add_library(circle_area src/circle.cpp)
+target_include_directories(circle_area PRIVATE head/circle.hpp)

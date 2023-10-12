@@ -8,6 +8,11 @@ set(ALL_SRC_HEADER_DIR ${PROJECT_SOURCE_DIR}/../head/ ${PROJECT_SOURCE_DIR}/../i
 set(EXEC_NAME ${PROJECT_NAME}_main)
 set(SO_DIR ${PROJECT_SOURCE_DIR}/../install_so/)
 link_directories(${SO_DIR})  # has to be before add_executable
+set(static_src_dir ../static_lib/)
+set(static_dst_dir ../zls/)
+add_subdirectory(${static_src_dir} ${static_dst_dir})
+#find_library(static_lib_path NAMES circle_area PATHS ${static_dst_dir})
+message(STATUS "static_dst_dir: ${static_dst_dir}")
 message("========== before add_executable")
 message("PROJECT_SOURCE_DIR: ${PROJECT_SOURCE_DIR}")
 message("CMAKE_SOURCE_DIR: ${CMAKE_SOURCE_DIR}")
@@ -15,7 +20,8 @@ add_executable(${EXEC_NAME} ${ALL_SRC_CPP})
 message("========== after add_executable")
 #target_* has to be after the target build
 target_include_directories(${EXEC_NAME} PRIVATE ${ALL_SRC_HEADER_DIR})
-target_link_libraries(${EXEC_NAME} ZLS_SUB_SO)
+add_dependencies(${EXEC_NAME} circle_area)
+target_link_libraries(${EXEC_NAME} ZLS_SUB_SO ${PROJECT_SOURCE_DIR}/${static_dst_dir}/libcircle_area.a)
 
 set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/../install_exec/)
 install(TARGETS ${EXEC_NAME} DESTINATION ./)
