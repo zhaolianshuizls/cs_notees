@@ -1,3 +1,7 @@
+#======= 190 =======
+#set a file with suffix extension dlp as cpp syntax in vim
+au BufReadPost *.dlp set syntax=cpp
+
 #======= 189 =======
 # in vim, past ahead the current the position
 ap
