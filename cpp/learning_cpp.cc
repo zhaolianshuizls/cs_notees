@@ -1,3 +1,27 @@
+//====== 516 ======
+// constexpr can be used to decorate a function return type so that it can represent switch-case value
+#include <iostream>
+constexpr int getCaseValue(int a) {
+    // can have only one statement in c++11
+    return 2*a;
+}
+
+
+int main() {
+    constexpr int a = 2;
+    int b = (a == 2) ? 4 : -1;
+    switch(b) {
+        case getCaseValue(a):
+            std::cout << "b is 4\n";
+        break;
+        case getCaseValue(0):
+            std::cout << "b is 0\n";
+        break;
+    }
+}
+
+
+/*
 //====== 515 ======
 #include <iostream>
 
@@ -14,7 +38,6 @@ int main() {
 }
 
 
-/*
 //====== 514 ======
 #include <iostream>
 
