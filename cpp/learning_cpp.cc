@@ -1,3 +1,33 @@
+//====== 518 ======
+#include "h1.h"
+
+int main() {
+    test_s1();
+    test_s2();
+}
+
+
+
+/*
+//====== 517 ======
+#include <map>
+
+enum X {Z, L, S};
+class Me {
+    public:
+        //static int a = 3;  // compile error
+        static const int a = 3;
+        //static const float b = 3.14;  // non-integral type
+        static const X x = Z;
+        //static constexpr std::map<X, int>zls; //{{Z, 2}, {L, 3}}; // class map is not literal, its constructor/destructor are not trivial
+};
+// map is not literal type
+//constexpr std::map<X, int>zls {{Z, 2}, {L, 3}};
+
+int main() {
+}
+
+
 //====== 516 ======
 // constexpr can be used to decorate a function return type so that it can represent switch-case value
 #include <iostream>
@@ -21,7 +51,6 @@ int main() {
 }
 
 
-/*
 //====== 515 ======
 #include <iostream>
 
