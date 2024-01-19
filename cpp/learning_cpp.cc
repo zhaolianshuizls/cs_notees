@@ -1,3 +1,25 @@
+//====== 519 ======
+class You {
+    public:
+        // ================ static const/constexpr
+        // constexpr has to be initialized in line
+        static constexpr int a = 4;
+        // const can be initialized either in line or out of line
+        static const int b;
+        static const int c = 7;
+        // ================ static non-const/non-constexpr
+        // static non-const variables can not be initialized in class
+        static int d;
+};
+
+const int You::b = 3;
+int You::d = 8;
+
+int main() {
+
+}
+
+/*
 //====== 518 ======
 #include "h1.h"
 
@@ -7,8 +29,6 @@ int main() {
 }
 
 
-
-/*
 //====== 517 ======
 #include <map>
 
