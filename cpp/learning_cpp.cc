@@ -1,4 +1,5 @@
 //====== 519 ======
+#include <iostream>
 class You {
     public:
         // ================ static const/constexpr
@@ -16,7 +17,12 @@ const int You::b = 3;
 int You::d = 8;
 
 int main() {
-
+    /*volatile*/ const int a = 9;
+    int *b;
+    b = const_cast<int *>(&a);  // const_cast is needed from const to non-const
+    *b = 10;
+    std::cout << a << "\n";  // a is optimized at compile time, so to avoid it we should add volatile at the line of its declaration
+    std::cout << *b << "\n";
 }
 
 /*
