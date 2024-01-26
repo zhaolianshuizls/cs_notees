@@ -1,3 +1,17 @@
+//====== 520 ======
+// inline function is a weak symbol, which allows multiple definitions in the program, but which one gets picked is undefined,
+// it may depend on the order in which the src files are compiled. Inline function has to be used in the same translation unit, otherwise no symbol is generated
+#include <iostream>
+
+void fzls();
+
+int main() {
+    std::cout << "-------\n";
+    fzls();
+    std::cout << "-------\n";
+}
+
+/*
 //====== 519 ======
 #include <iostream>
 class You {
@@ -17,7 +31,7 @@ const int You::b = 3;
 int You::d = 8;
 
 int main() {
-    /*volatile*/ const int a = 9;
+    volatile const int a = 9;
     int *b;
     b = const_cast<int *>(&a);  // const_cast is needed from const to non-const
     *b = 10;
@@ -25,7 +39,7 @@ int main() {
     std::cout << *b << "\n";
 }
 
-/*
+
 //====== 518 ======
 #include "h1.h"
 
