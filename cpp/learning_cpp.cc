@@ -1,3 +1,29 @@
+//====== 521 ======
+// warning will be issued if deprecated functions are used
+#include <iostream>
+
+void xxf() __attribute__ ((deprecated));
+
+void xxf() {
+
+}
+
+int oooo __attribute__ ((deprecated)) = 3;
+
+#define VAR_NAME(a, b) a ## b
+#define VAR_NAME2(a, b) VAR_NAME(a, b)
+
+int main() {
+    //xxf();
+    std::cout << oooo << "\n";
+
+    int VAR_NAME(a, 2) = 32;
+    int VAR_NAME2(a, __LINE__) = 99;
+    std::cout << a2 << a21 << '\n';
+}
+
+
+/*
 //====== 520 ======
 // inline function is a weak symbol, which allows multiple definitions in the program, but which one gets picked is undefined,
 // it may depend on the order in which the src files are compiled. Inline function has to be used in the same translation unit, otherwise no symbol is generated
@@ -11,7 +37,6 @@ int main() {
     std::cout << "-------\n";
 }
 
-/*
 //====== 519 ======
 #include <iostream>
 class You {
