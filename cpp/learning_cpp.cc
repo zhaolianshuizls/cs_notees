@@ -1,3 +1,44 @@
+//====== 522 ======
+// va_start/arg/end
+// defer macro expansion
+#include <cstdarg>
+#include <iostream>
+
+// here arg is not a single paramter, but a collection of them
+#define MM(arg...) my_test(arg)
+
+void my_test1(int a) {
+
+}
+
+void my_test(int count, ...) {
+
+    va_list args;
+    va_start(args, count);
+
+    for (int i = 0; i < count; ++i) {
+        int value = va_arg(args, int);
+        std::cout << value << '\n';
+    }
+    va_end(args);
+
+}
+
+#define empty()
+#define defer(m) m empty()
+#define B(n) #n " is my favouriate"
+#define expand(X) X
+#define no_defer(m) m
+
+int main() {
+    //my_test
+    MM(5, 11, 12, 13, 14, 15);
+    // defer(B)(3) is evaluated as B(3) which needs further expansion
+    std::cout << expand(defer(B)(3)) << '\n';
+    std::cout << no_defer(B)(4) << '\n';
+}
+
+/*
 //====== 521 ======
 // warning will be issued if deprecated functions are used
 #include <iostream>
@@ -8,10 +49,20 @@ void xxf() {
 
 }
 
+int lo(int) {
+
+}
+
 int oooo __attribute__ ((deprecated)) = 3;
 
 #define VAR_NAME(a, b) a ## b
 #define VAR_NAME2(a, b) VAR_NAME(a, b)
+
+void zzzlll() {
+    static int i = 0;
+    i += 2;
+    std::cout << i << '\n';
+}
 
 int main() {
     //xxf();
@@ -19,11 +70,15 @@ int main() {
 
     int VAR_NAME(a, 2) = 32;
     int VAR_NAME2(a, __LINE__) = 99;
-    std::cout << a2 << a21 << '\n';
+
+    lo(2);
+
+    std::cout << bool(nullptr || 1) << '\n';
+    zzzlll();
+    zzzlll();
 }
 
 
-/*
 //====== 520 ======
 // inline function is a weak symbol, which allows multiple definitions in the program, but which one gets picked is undefined,
 // it may depend on the order in which the src files are compiled. Inline function has to be used in the same translation unit, otherwise no symbol is generated
