@@ -1,3 +1,35 @@
+//========== 523
+// in cpp, the static class members are stored in global data segment, so the size of a class is not including the static members
+#include <iostream>
+struct Me {
+    static int b[4];
+    int c;
+    int a[3];
+};
+
+union storage {
+    int p_int[4];
+    float p_float[4];
+    Me me;
+};
+
+
+int main() {
+    int a[4] = {0x43690000, 91, 92, 93};
+    storage *s = reinterpret_cast<storage *>(a);
+    for (int i = 1; i < 4; ++i) {
+        printf("%d\n", s->p_int[i]);
+        printf("%e\n", s->p_float[i]);
+        printf("%d\n", s->me.a[i - 1]);
+    }
+
+    Me x;
+    std::cout << sizeof(x) << '\n';
+}
+
+
+
+/*
 //====== 522 ======
 // va_start/arg/end
 // defer macro expansion
@@ -38,7 +70,6 @@ int main() {
     std::cout << no_defer(B)(4) << '\n';
 }
 
-/*
 //====== 521 ======
 // warning will be issued if deprecated functions are used
 #include <iostream>
