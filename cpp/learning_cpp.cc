@@ -13,7 +13,9 @@ union storage {
     Me me;
 };
 
-
+// 0 can be converted to nullptr
+void xxx(int*) { std::cout << "int *\n";}
+void xxx(int) { std::cout << "int\n";}
 int main() {
     int a[4] = {0x43690000, 91, 92, 93};
     storage *s = reinterpret_cast<storage *>(a);
@@ -25,6 +27,10 @@ int main() {
 
     Me x;
     std::cout << sizeof(x) << '\n';
+    int *pp;
+    std::cout << "size of a pointer " << sizeof(pp) << "\n";
+
+    xxx(0);
 }
 
 
