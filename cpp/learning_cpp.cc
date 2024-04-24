@@ -1,3 +1,22 @@
+//========== 524
+// in class initializer list, the variable before () refers to the class member variable, while in the constructor body, it refers to the constructor parameter
+// to refer to class member, use this->member_variable
+#include <iostream>
+
+struct Me {
+    int a;
+    int b;
+    int c;
+    Me(int a, int b, int c): a(a) { this->b = b; c = c; }
+};
+
+int main() {
+    Me me(332, 133, 99);
+    std::cout << me.a << " " << me.b << " " << me.c << "\n";
+}
+
+
+/*
 //========== 523
 // in cpp, the static class members are stored in global data segment, so the size of a class is not including the static members
 #include <iostream>
@@ -34,8 +53,6 @@ int main() {
 }
 
 
-
-/*
 //====== 522 ======
 // va_start/arg/end
 // defer macro expansion
